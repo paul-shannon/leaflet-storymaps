@@ -1,4 +1,5 @@
-Latitude,Longitude,Chapter,Description
-40.7128,-74.0060,New York CITY,"A bustling metropolis on the East Coast of the United States"
-34.0522,-118.2437,Los Angeles,"The entertainment capital of the world, located in Southern California."
-51.5074,0.1278,London,"The historic capital of England, situated on the River Thames."
+Latitude,Longitude,Chapter,Description,Media Link
+40.7128,-74.0060,New York CITY,"A bustling metropolis on the East Coast of the United States",
+34.0522,-118.2437,Los Angeles,"The entertainment capital of the world, located in Southern California.",media/king-1963-npr.jpg
+51.5074,0.1278,London,"The historic capital of England, situated on the River Thames.",
+
