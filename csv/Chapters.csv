@@ -1,6 +1,3 @@
 Latitude,Longitude,Chapter,Description,Media Link
-,,Coast Salish Art,description to come,
-40.7128,-74.0060,New York CITY,"A bustling metropolis on the East Coast of the United States",
-34.0522,-118.2437,Los Angeles,"The entertainment capital of the world, located in Southern California.",media/king-1963-npr.jpg
-51.5074,0.1278,London,"The historic capital of England, situated on the River Thames.",
-47.65543925049407,-122.30507660704056,"Raven's Journey","This sculpture was created by Marvin Oliver especially to honor and inspire students at the University of Washington. At a celebration of its installation, he said, <br><br>&quot;The canoe is a means of sharing",media/ravensJourney.jpg
+1,47.6554392504941,-122.305076607041,"Raven's Journey","This sculpture was created by Marvin Oliver especially to honor and inspire students at the University of Washington. At a celebration of its installation, he said, <br><br>&quot;The canoe is a means of sharing",media/ravensJourney.jpg
+2,47.5611982864887,-122.351925622796,"Duwamish Longhouse Floor","Basket maker Mary Lou Slaughter created the design for this floor at the request of the architect of the Duwamish Longhouse. The inlay pattern draws on her Coast Salish basketry designs. The zigzag pattern is the mountain design; the cross in the center is the sword fern design.",media/duwamishLonghouseFloor.jpg
