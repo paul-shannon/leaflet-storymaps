@@ -2,7 +2,6 @@ Setting,Customize,Hints
 Storymap Info,,""
 Storymap Title,Coast Salish Art,
 Storymap Subtitle,An early experiment with open source software,
-Storymap Logo,media/cthumanities-logo.png,Path to a logo image
 Google Analytics Tracking ID,,Sample format: UA-5488840-29
 Map Settings,,"For help, email Paul Shannon"
 Basemap Tiles,CartoDB.Positron,"Select basemap. For Stadia tiles, add domain-based authentication."
