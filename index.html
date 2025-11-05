@@ -52,11 +52,12 @@
 
   <script type="text/javascript">
     // Create the Leaflet map with a generic start point
+    console.log("about to create map");
     var map = L.map('map', {
       center: [0, 0],
       zoom: 1,
-      scrollWheelZoom: false,
-      zoomControl: false,
+      scrollWheelZoom: true,
+      zoomControl: true,
       tap: false
     });
   </script>
