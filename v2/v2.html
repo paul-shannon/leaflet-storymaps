@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+  <meta name="viewport" content="initial-scale=1, maximum-scale=1,user-scalable=no"/>
+  <link rel="icon" type="image/png" href="./favicon.png">
+  <title>Coast Salish Art Storymap</title>
+
+  <!-- Load Leaflet CSS and JS-->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+  <!-- Load Leaflet basemap providers -->
+  <!-- script
+  src="https://unpkg.com/leaflet-providers@2.0.0/leaflet-providers.js"></script -->
+
+  <!-- Load jQuery  -->
+  <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
+  <script
+    src="https://code.jquery.com/ui/1.14.1/jquery-ui.min.js"
+     integrity="sha256-AlTido85uXPlSyyaZNsjJXeCs07eSv3r43kyCVc8ChI="
+     crossorigin="anonymous"></script>
+
+
+  <!-- Load PapaParse -->
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.0/papaparse.min.js"></script>
+
+  <!-- Load Lightbox -->
+  <script src="scripts/lightbox/js/lightbox.js"></script>
+  <link rel="stylesheet" href="scripts/lightbox/css/lightbox.css" />
+
+  <!-- Load Font-Awesome -->
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+  <link rel="stylesheet" href="markers/leaflet.extra-markers.min.css">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/style-desktop.css">
+  <link rel="stylesheet" href="css/loader.css">
+  <link rel="shortcut icon" href="#" />
+ <link rel="shortcut icon" type="image/x-icon" href="favicon.png">
+</head>
+
+<body>
+
+  <div id="title">
+    <div id="logo"></div>
+    <div id="header"></div>
+    <div id="scratchPad" style="margin: 10px; height: 200px;
+                                font-family: courier;
+                                border: 1px solid gray;
+                                border-radius: 10px;"></div>
+    <div id="menubar" style="margin: 10px; height: 50px; border: 1px
+    solid gray; border-radius: 10px;"></div>
+  </div>
+
+  <div id="narration">
+    <div id="contents">
+      <div id="top"></div>
+    </div>
+  </div>
+
+  <div class="loader">Loading...</div>
+  <div id="map"></div>
+
+  <script type="text/javascript">
+    // Create the Leaflet map with a generic start point
+    /******
+    console.log("about to create map");
+    var map = L.map('map', {
+      center: [0, 0],
+      zoom: 1,
+      scrollWheelZoom: true,
+      zoomControl: true,
+      tap: false
+    });
+   function installFilteringMenu(){
+      for(let c=0; c < chapters.length; c++){
+         var newValue = chapters[c].categories;
+         $("#menubar").append("<button class='filterMenuButton'>" + newValue + "</button>");
+         } // for c
+         } // installFilteringMenu
+   ********/
+//--------------------------------------------------------------------------------
+ $(function(){
+    console.log("document ready");
+    });
+//--------------------------------------------------------------------------------
+</script>
+
+  <!-- script type="text/javascript" src="google-doc-url.js"></script -->
+  <script type="text/javascript" src="markers/leaflet.extra-markers.min.js"></script>
+  <script type="text/javascript" src="scripts/constants.js"></script>
+  <script type="text/javascript" src="scripts/jquery.csv.js"></script>
+  <!-- script type="text/javascript" src="scripts/newstorymap.js"></script -->
+  <!-- script type="module" src="scripts/readEntries.mjs"></script>
+  <script type="module" src="scripts/pshannon.mjs"></script -->
+
+  <script type="module">
+    import {Main} from './scripts/main.js';
+    $(document).ready(function() {
+        console.log("--- document ready, constructing Main")
+        var main = new Main("csv/sites.csv");
+        window.main = main
+        // await main.readTable();
+        main.getTable();
+        })
+    </script>
+
+</body>
+</html>
