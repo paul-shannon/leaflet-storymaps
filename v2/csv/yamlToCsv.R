@@ -18,6 +18,7 @@ lats <- vector(mode="numeric", length=count)
 lons <- vector(mode="numeric", length=count)
 descriptions <- vector(mode="character", length=count)
 medias <- vector(mode="character", length=count)
+thumbnails <- vector(mode="character", length=count)
 categories <- vector(mode="character", length=count)
 
 for(i in seq_len(count)){
@@ -27,11 +28,13 @@ for(i in seq_len(count)){
    lons[i] <- item$lon
    descriptions[i] <- sprintf('"%s"', item$description)
    medias[i] <- item$media
+   thumbnails[i] <- item$thumbnail
    artists[i] <- item$artist
    categories[i] <- item$categories
    }
 tbl <- data.frame(Latitude=lats, Longitude=lons, Chapter=titles,
                   Description=descriptions, 'media'=medias,
+                  thumbnail=thumbnails,
                   artist=artists, categories=categories)
 colnames(tbl)[5] <- "Media Link"
 csvFilename <- sprintf("%s.csv", baseName)

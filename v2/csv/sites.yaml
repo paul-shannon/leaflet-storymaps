@@ -6,6 +6,7 @@ items:
      lon: -122.30507660704056
      categories: raven
      media: media/ravensJourney.jpg
+     thumbnail: media/ravensJourney-thumb.jpg
      description:
         This sculpture was created by Marvin Oliver especially to
         honor and inspire students at the University of Washington. At
@@ -65,6 +66,7 @@ items:
      lon:  -122.35192562279617
      categories: basketry
      media: media/duwamishLonghouseFloor.jpg
+     thumbnail: media/duwamishLonghouseFloor-thumb.jpeg
      description: Basket maker Mary Lou Slaughter created the design
         for this floor at the request of the architect of the Duwamish
         Longhouse. The inlay pattern draws on her Coast Salish
@@ -109,6 +111,7 @@ items:
      lon:  -122.2872870833592
      categories: orca
      media: media/orcaDorsalFin.jpg
+     thumbnail: media/orcaDorsalFin.jpg
      description: This orca dorsal fin, created by Marvin Oliver,
        carries the design of a power figure that is elaborated with
        design elements that were carved on historic Salish bowls. The
@@ -116,3 +119,38 @@ items:
        compassion, good luck and prosperity. The power figure on the
        fin is a human-like figure with a round face in cast glass.
 
+   - title: Eagle Bearing Wealth
+     artist: Marvin Oliver
+     birthYear: 1946
+     lat: 47.69918970783044
+     lon:   -122.33206132860374
+     categories: eagle
+     date: 1988
+     tribalAffilation: Quinault, Isleta Pueblo
+     media: media/eaglebearingwealth.jpg
+     thumbnail: media/eaglebearingwealth-thumbnail.png
+     description: Artist Marvin Oliver described this carving, one
+       that he designed using the Northern Northwest Coast formline
+       style.</p><p>“Eagle Bearing Wealth is one of the first ones I
+       did in mixed media. I added the Copper. The idea and approach,
+       everything I do, comes from that now. This is where it started
+       to come into play. I’m always adding something to the material,
+       instead of the work just being wood. So that’s where the copper
+       came in, to give it that extra dimension.”</p><p>This artwork
+       is a part of the Washington State Art Collection and was
+       acquired by the Washington State Arts Commission in partnership
+       with North Seattle Community College.</p><p>Location - Wellness
+       Center (east of Arts and Sciences building, North Seattle
+       College, 9600 College Way N, Seattle, WA
+       98103.</p><p>Photograph is from the Washington State Arts
+       Commission, ArtsWa.</p><p>
+
+
+
+#   - title: 
+#     artist: 
+#     lat: 
+#     lon:  
+#     categories: 
+#     media: media/
+#     description: 
