@@ -13,29 +13,17 @@
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
     integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
 
-  <!-- Load Leaflet basemap providers -->
-  <!-- script
-  src="https://unpkg.com/leaflet-providers@2.0.0/leaflet-providers.js"></script -->
-
-  <!-- Load jQuery  -->
   <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.min.js"></script>
   <script
     src="https://code.jquery.com/ui/1.14.1/jquery-ui.min.js"
      integrity="sha256-AlTido85uXPlSyyaZNsjJXeCs07eSv3r43kyCVc8ChI="
      crossorigin="anonymous"></script>
 
-
-  <!-- Load PapaParse -->
   <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.0/papaparse.min.js"></script>
 
-  <!-- Load Lightbox -->
-  <script src="scripts/lightbox/js/lightbox.js"></script>
-  <!-- link rel="stylesheet" href="scripts/lightbox/css/lightbox.css"  / -->
 
-  <!-- Load Font-Awesome -->
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
   <link rel="stylesheet" href="markers/leaflet.extra-markers.min.css">
-
   <link rel="stylesheet" href="css/adaptive.css">
        
   <link rel="shortcut icon" href="#" />
@@ -44,34 +32,29 @@
 
 <body>
 
-<div class="grid-container">
+<div id="mainDiv" class="grid-container">
 
-  <div id="header" class="header"><h3>header</h3></div>
-  <div id="artwork"<h3>artwork</h3>
-    <div class="thumbnail-grid-container">
+  <div id="header" class="header">
+    <b>Visible on Ancestral Lands: Coast Salish Public Art Works in
+      King County.</b></br>
+     This website acknowledges that the lands and art work documented
+    here are the ancestral home of the Coast Salish people.
+    <br>THANKS TO 4Culture/King County Lodging Tax Fund for funding support.
+  </div>
 
-        <img src="media/duwamishLonghouseFloor-thumb.jpg" alt="Thumbnail 1"
-
-
-            class="thumbnail" id="duwamishLonghouseFloor" name="duwamishLonghouseFloor">
-        <img src="media/orcaDorsalFin-thumb.jpg" alt="Thumbnail 1"
-             class="thumbnail" id="orcaDorsalFin" name="orcaDorsalFin">
-        <img src="media/ravensJourney-thumb.jpg" alt="Thumbnail 1"
-             class="thumbnail" id="ravensJourney" name="ravensJourney" >
-        <img src="media/eaglebearingwealth-thumbnail.png" alt="Thumbnail 4"
-             class="thumbnail" id="eagleBearingWealth" name="eagleBearingWealth" >
-    </div>
+  <div id="artwork">
+    <div id="thumbnail-grid" class="thumbnail-grid-container"></div>
   </div>
   <div id="map"></div>
-
 </div>
 
 
-  <script type="text/javascript">
+<script type="text/javascript">
 //--------------------------------------------------------------------------------
- $(function(){
+$(function(){
     console.log("document ready");
-    });
+
+});
 //--------------------------------------------------------------------------------
 </script>
 
@@ -85,11 +68,11 @@
 
   <script type="module">
     import {Main} from './scripts/main.js';
+    import {StoryMarker} from './scripts/storyMarker.js';
     $(document).ready(function() {
         console.log("--- document ready, constructing Main")
         var main = new Main("csv/sites.csv");
-        window.main = main
-        // await main.readTable();
+        window.main = main;
         main.getTable();
         })
     </script>
@@ -107,11 +90,11 @@
         }
 
        // Close dialog when clicking on backdrop
-     document.getElementById('imageModal').addEventListener('click', function(event) {
-        if (event.target === this) {
-            closeImageModal();
-            }
-        });
+    // document.getElementById('imageModal').addEventListener('click', function(event) {
+    //    if (event.target === this) {
+    //        closeImageModal();
+    //        }
+    //    });
 
 
    </script>
