@@ -27,15 +27,57 @@ export class Main {
           console.log("*** read csv, object count: " + self.sites.length)
       }).then(function(){
           console.log("all sites read")
+          self.curateCategories()
           self.addMarkers()
           self.createThumbnailsAndPopups()
       }).fail(function(e){
               self.sites = []
               console.log("failure reading csv file.  " + e)
+              console.log(e)
               })
       $('#map, #artwork, #header').css('visibility', 'visible');
       $('div.loader').css('visibility', 'hidden');
       } // ctor
+
+  curateCategories(){
+     var categories = []
+     for (let i=0; i < main.sites.length; i++){
+        let categoriesRaw = main.sites[i].categories;
+        let categoriesExtracted = categoriesRaw.split(';')
+                   .map(function(x){return(x.trim())})
+        main.sites[i].categories = categoriesExtracted;
+        categories = [...categories, ...categoriesExtracted]
+        } // for i
+     this.categories = [...new Set(categories)]
+     } 
+
+  showSites(categories){
+     let visibleSites = []
+     function intersection (a, b) {
+        const setA = new Set(a);
+        return b.filter(value => setA.has(value));
+        }
+     for (let i=0; i < main.sites.length; i++){
+        let siteCategories = main.sites[i].categories
+        if (categories[0] == "All"){
+           visibleSites.push(i)
+           }
+        else if (intersection(categories, siteCategories).length > 0){
+           visibleSites.push(i)
+           }
+        console.log(categories[i]);
+        } // for i
+     console.log(visibleSites);
+     for (let i=0; i < main.sites.length; i++){
+        let divID = '#thumbnail-' + i;
+        if (visibleSites.indexOf(i) >= 0){
+           $(divID).show()
+           }
+        else {
+           $(divID).hide()
+           }
+        } // let i
+     } // showSites
 
   getTable(){
      console.log("main.getTable() called")
@@ -48,6 +90,8 @@ export class Main {
         const lat = this.sites[i].Latitude;
         const lon = this.sites[i].Longitude;
         var newMarker = new StoryMarker(i, this.map, this.sites[i]);
+        console.log("--- new marker with bounds: ")
+        console.log(newMarker.getLatLng())
         this.bounds.push(newMarker.getLatLng())
        } // for i
      this.map.fitBounds(this.bounds)
@@ -71,7 +115,8 @@ export class Main {
        const title = site['Chapter'];
 
        console.log('creating thumbnail and click handler for ' + thumbnailImage)
-       const markup = '<div id="thumbnail-wrapper" ' +
+       let divID = 'thumbnail-' + i;
+       const markup = '<div id="' + divID + '" ' +
                       'style="border: 1px solid black; border-radius: 10px; ' +
                       'padding:10px; margin: 20px;">' + 
                        `<img src="${thumbnailImage}"` +

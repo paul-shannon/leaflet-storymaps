@@ -134,6 +134,9 @@ a.source:visited {
   opacity: 0.75;
 }
 
+.leaflet-selected-marker-icon {
+   border: 10px solid gold;
+  }
 /*
   By default, current (active) marker is orange.
   If you want to change the color, see options here: https://github.com/coryasilva/Leaflet.ExtraMarkers/blob/master/src/assets/css/leaflet.extra-markers.css

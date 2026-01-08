@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>leaflet marker demo</title>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+      integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+      integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+
+<style>
+
+body{
+   margin: 100px;
+   margin-top: 30px;
+   font-family: "New York Times-Roman";
+   font-size: 22px;
+   height: 100%;
+   }
+
+.leaflet-marker-selected{
+   transform: scale(1.5);
+   filter: drop-shadow(0px 0px 10px rgba(0,0,0,.5));
+   }
+
+</style>
+
+<script>
+$(document).ready(function(){
+  console.log("document ready")
+  var map = L.map('map').setView([47.5567, -122.2515], 12)
+  L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+               attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+             }).addTo(map);
+    var latlng = [47.5567, -122.2515]
+    // var marker = L.marker(latlng).addTo(map)
+    var marker = L.circleMarker(latlng, {
+                            radius: 5,
+                            opacity: .9,                            
+                            color: "blue",
+                            fillColor: "blue",
+                            fillOpacity: 0.5
+                            }).addTo(map)
+
+    marker.bindPopup('This is a blue circle marker!');
+    marker.on('mouseover', function (e) {
+       e.target.closePopup();
+       setTimeout(function() {
+          e.target.openPopup();
+          }, 1500);
+       });
+    marker.on('mouseout', function (e) {
+       this.closePopup();
+       });
+    marker.on("click", function(e){
+       e.target.closePopup();
+       console.log("click")
+       console.log(e)
+       console.log(e.target._icon)
+       console.log("radius: " + e.target.getRadius())
+       var currentRadius = e.target.getRadius()
+       var newRadius = 10;
+       if(currentRadius == newRadius){
+          newRadius = 5;
+          }
+       e.target.setRadius(newRadius)
+       })
+  }) // ready
+
+</script>
+
+</head>
+<body>
+<h3>map </h3>
+
+<div id="map" style="height: 400px;"></div>
+
+<video 
+</body>
+</html>
+
+
+

@@ -4,7 +4,7 @@ items:
      artist: Marvin Oliver
      lat: 47.65543925049407
      lon: -122.30507660704056
-     categories: raven
+     categories: Legends; Tribal Canoe Journey
      media: media/ravensJourney.jpg
      thumbnail: media/ravensJourney-thumb.jpg
      description:
@@ -64,7 +64,7 @@ items:
      artist: Mary Lou Slaughter
      lat: 47.56119828648868
      lon:  -122.35192562279617
-     categories: basketry
+     categories: Weaving
      media: media/duwamishLonghouseFloor.jpg
      thumbnail: media/duwamishLonghouseFloor-thumb.jpeg
      description: Basket maker Mary Lou Slaughter created the design
@@ -109,7 +109,7 @@ items:
      artist: Marvin Oliver
      lat: 47.560520175429055
      lon:  -122.2872870833592
-     categories: orca
+     categories: Orcas; Art-making
      media: media/orcaDorsalFin.jpg
      thumbnail: media/orcaDorsalFin.jpg
      description: This orca dorsal fin, created by Marvin Oliver,
@@ -124,7 +124,7 @@ items:
      birthYear: 1946
      lat: 47.69918970783044
      lon:   -122.33206132860374
-     categories: eagle
+     categories: Art-making
      date: 1988
      tribalAffilation: Quinault, Isleta Pueblo
      media: media/eaglebearingwealth.jpg
@@ -150,7 +150,7 @@ items:
      birthYear: 1946
      lat:   47.66795
      lon: -122.41799
-     categories: bear, eagle
+     categories: Art-making
      date: 1977
      tribalAffilation: Quinault, Isleta Pueblo
      media: media/bearandeagle.jpg
@@ -174,7 +174,7 @@ items:
      birthYear: 1885
      lat: 47.660600
      lon: -122.3116
-     categories: museum;gallery
+     categories: Museums/Galleries
      date: 2025
      tribalAffilation: 
      media: media/burke.jpg
@@ -198,7 +198,7 @@ items:
      birthYear: 1951
      lat: 47.5034734374545
      lon: -122.29795238906246
-     categories: tbd
+     categories: Legends; Weaving
      date: 1997
      tribalAffilation: Lower Elhwa S'Klallam
      media: media/ceremonystone.jpg
@@ -242,7 +242,7 @@ items:
      birthYear: 1951
      lat: 47.50308694075936
      lon: -122.29666254232713
-     categories: origins
+     categories: Legends
      date: 1997
      tribalAffilation: Lowe Elhwa S'Klallam
      media: media/changerstone.jpg
@@ -286,7 +286,7 @@ items:
      birthYear: 1975
      lat: 47.65542542527806
      lon: -122.30510255382147
-     categories: salmon
+     categories: Salmon
      date: 2013
      tribalAffilation: Puyallup, Tulalip
      media: media/duwamishsalmon.jpg
@@ -309,15 +309,15 @@ items:
         of the HUB renovation in 2010-2012.</p><p>Photograph by Jayna
         Milan.  </p><p>
 
-   - title: Eight Generation
+   - title: Eighth Generation
      artist: ""
      birthYear: 2008
      lat: 47.608254743906144
      lon: -122.33915400672612
-     categories: museum; gallery
+     categories: Museums/Galleries
      date: 
      tribalAffilation: 
-     media: media/eighthgen.
+     media: media/eighthgen.jpg
      thumbnail: media/eighthgen.jpg
      description: Eighth Generation is a gallery owned by Coast Salish (Nooksack) artist
        and designer Louie Gong who promotes work by 'Inspired Natives'
