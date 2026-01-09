@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lightbox Gallery with Scrolling Text</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #1a2a6c, #b21f1f, #fdbb2d);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .gallery-container {
+            background-color: rgba(255, 255, 255, 0.95);
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .intro-text {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+            color: #555;
+        }
+        
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+        }
+        
+        .thumbnail {
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            background: white;
+            cursor: pointer;
+        }
+        
+        .thumbnail:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 20px rgba(0,0,0,0.15);
+        }
+        
+        .thumbnail img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            display: block;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .thumbnail-caption {
+            padding: 15px;
+            text-align: center;
+            font-weight: 600;
+            color: #444;
+        }
+        
+        /* Custom lightbox styling */
+        .lightboxOverlay {
+            background: rgba(0, 0, 0, 0.9) !important;
+        }
+        
+        .lightbox .lb-image {
+            border-radius: 8px 8px 0 0;
+            border: none;
+        }
+        
+        .lightbox .lb-nav a.lb-prev, 
+        .lightbox .lb-nav a.lb-next {
+            opacity: 0.9;
+        }
+        
+        .lightbox .lb-data .lb-caption {
+            font-size: 1.1rem;
+            font-weight: 600;
+            line-height: 1.5;
+            color: #f1f1f1;
+            padding: 10px 0;
+            text-align: center;
+            border-bottom: 1px solid #444;
+            margin-bottom: 10px;
+        }
+        
+        .lightbox .lb-data .lb-details {
+            width: 100%;
+            text-align: center;
+            padding-top: 10px;
+        }
+        
+        .lightbox .lb-data .lb-number {
+            color: #ddd;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        
+        /* Custom scrolling text container */
+        .scrolling-text-container {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 15px;
+            background: rgba(30, 30, 30, 0.8);
+            border-radius: 0 0 8px 8px;
+            max-height: 150px;
+            overflow-y: auto;
+        }
+        
+        .scrolling-text {
+            color: #f1f1f1;
+            font-size: 0.95rem;
+            line-height: 1.6;
+            text-align: left;
+        }
+        
+        /* Scrollbar styling */
+        .scrolling-text-container::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .scrolling-text-container::-webkit-scrollbar-track {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 4px;
+        }
+        
+        .scrolling-text-container::-webkit-scrollbar-thumb {
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 4px;
+        }
+        
+        .scrolling-text-container::-webkit-scrollbar-thumb:hover {
+            background: rgba(255, 255, 255, 0.5);
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: white;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        .instructions {
+            text-align: center;
+            margin-top: 20px;
+            color: #ddd;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>World Landmarks Gallery</h1>
+            <p class="subtitle">Click on any image to view details with scrolling text</p>
+        </header>
+        
+        <div class="gallery-container">
+            <p class="intro-text">Explore famous landmarks from around the world. Each image includes detailed information that you can scroll through.</p>
+            
+            <div class="gallery">
+                <!-- Image 1 -->
+                <div class="thumbnail">
+                    <a href="https://images.unsplash.com/photo-1543857778-c4a1a569eafe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
+                       data-lightbox="gallery" 
+                       data-title="Eiffel Tower, Paris"
+                       data-description="The Eiffel Tower is a wrought-iron lattice tower on the Champ de Mars in Paris, France. It is named after the engineer Gustave Eiffel, whose company designed and built the tower. Constructed from 1887 to 1889 as the centerpiece of the 1889 World's Fair, it was initially criticized by some of France's leading artists and intellectuals for its design, but it has become a global cultural icon of France and one of the most recognizable structures in the world. The Eiffel Tower is the most-visited paid monument in the world; 6.91 million people ascended it in 2015. The tower is 330 meters (1,083 ft) tall, about the same height as an 81-story building, and the tallest structure in Paris. Its base is square, measuring 125 meters (410 ft) on each side. During its construction, the Eiffel Tower surpassed the Washington Monument to become the tallest man-made structure in the world, a title it held for 41 years until the Chrysler Building in New York City was finished in 1930.">
+                        <img src="https://images.unsplash.com/photo-1543857778-c4a1a569eafe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80" alt="Eiffel Tower">
+                    </a>
+                    <div class="thumbnail-caption">Eiffel Tower</div>
+                </div>
+                
+                <!-- Image 2 -->
+                <div class="thumbnail">
+                    <a href="https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
+                       data-lightbox="gallery" 
+                       data-title="Pyramids of Giza, Egypt"
+                       data-description="The Great Pyramid of Giza is the oldest and largest of the three pyramids in the Giza pyramid complex bordering present-day Giza in Greater Cairo, Egypt. It is the oldest of the Seven Wonders of the Ancient World, and the only one to remain largely intact. Initially standing at 146.5 meters (481 feet), the Great Pyramid was the tallest man-made structure in the world for more than 3,800 years. Over time, most of the smooth white limestone casing was removed, which lowered the pyramid's height to the present 138.5 meters (454.4 ft). What is seen today is the underlying core structure. The base was measured to be about 230.3 meters (755.6 ft) square, giving a volume of roughly 2.6 million cubic meters (92 million cubic feet), which includes an internal hillock. The dimensions of the pyramid were 280 royal cubits (146.7 m; 481.4 ft) high, a base length of 440 cubits (230.6 m; 756.4 ft), with a seked of 5+1/2 palms (a slope of 51°50'40").">
+                        <img src="https://images.unsplash.com/photo-1506973035872-a4ec16b8e8d9?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80" alt="Pyramids of Giza">
+                    </a>
+                    <div class="thumbnail-caption">Pyramids of Giza</div>
+                </div>
+                
+                <!-- Image 3 -->
+                <div class="thumbnail">
+                    <a href="https://images.unsplash.com/photo-1534008897995-27a23e859048?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
+                       data-lightbox="gallery" 
+                       data-title="Statue of Liberty, New York"
+                       data-description="The Statue of Liberty is a colossal neoclassical sculpture on Liberty Island in New York Harbor within New York City, in the United States. The copper statue, a gift from the people of France to the people of the United States, was designed by French sculptor Frédéric Auguste Bartholdi and its metal framework was built by Gustave Eiffel. The statue was dedicated on October 28, 1886. The statue is a figure of Libertas, a robed Roman liberty goddess. She holds a torch above her head with her right hand, and in her left hand carries a tabula ansata inscribed JULY IV MDCCLXXVI (July 4, 1776 in Roman numerals), the date of the U.S. Declaration of Independence. A broken shackle and chain lie at her feet as she walks forward, commemorating the recent national abolition of slavery. After its dedication, the statue became an icon of freedom and of the United States, seen as a symbol of welcome to immigrants arriving by sea.">
+                        <img src="https://images.unsplash.com/photo-1534008897995-27a23e859048?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80" alt="Statue of Liberty">
+                    </a>
+                    <div class="thumbnail-caption">Statue of Liberty</div>
+                </div>
+                
+                <!-- Image 4 -->
+                <div class="thumbnail">
+                    <a href="https://images.unsplash.com/photo-1564507004663-b6dfb3e2ede4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
+                       data-lightbox="gallery" 
+                       data-title="Taj Mahal, India"
+                       data-description="The Taj Mahal is an ivory-white marble mausoleum on the southern bank of the river Yamuna in the Indian city of Agra. It was commissioned in 1632 by the Mughal emperor Shah Jahan to house the tomb of his favourite wife, Mumtaz Mahal; it also houses the tomb of Shah Jahan himself. The tomb is the centrepiece of a 17-hectare (42-acre) complex, which includes a mosque and a guest house, and is set in formal gardens bounded on three sides by a crenellated wall. Construction of the mausoleum was essentially completed in 1643, but work continued on other phases of the project for another 10 years. The Taj Mahal complex is believed to have been completed in its entirety in 1653 at a cost estimated at the time to be around 32 million rupees, which in 2020 would be approximately 70 billion rupees (about U.S. $1 billion). The construction project employed some 20,000 artisans under the guidance of a board of architects led by the court architect to the emperor, Ustad Ahmad Lahauri.">
+                        <img src="https://images.unsplash.com/photo-1564507004663-b6dfb3e2ede4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80" alt="Taj Mahal">
+                    </a>
+                    <div class="thumbnail-caption">Taj Mahal</div>
+                </div>
+                
+                <!-- Image 5 -->
+                <div class="thumbnail">
+                    <a href="https://images.unsplash.com/photo-1519996409144-56c88d35908a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
+                       data-lightbox="gallery" 
+                       data-title="Great Wall of China"
+                       data-description="The Great Wall of China is a series of fortifications that were built across the historical northern borders of ancient Chinese states and Imperial China as protection against various nomadic groups from the Eurasian Steppe. Several walls were built from as early as the 7th century BC, with selective stretches later joined together by Qin Shi Huang (220–206 BC), the first emperor of China. Little of the Qin wall remains. Later on, many successive dynasties built and maintained multiple stretches of border walls. The best-known sections of the wall were built by the Ming dynasty (1368–1644). Apart from defense, other purposes of the Great Wall have included border controls, allowing the imposition of duties on goods transported along the Silk Road, regulation or encouragement of trade and the control of immigration and emigration. Furthermore, the defensive characteristics of the Great Wall were enhanced by the construction of watch towers, troop barracks, garrison stations, signaling capabilities through the means of smoke or fire, and the fact that the path of the Great Wall also served as a transportation corridor.">
+                        <img src="https://images.unsplash.com/photo-1519996409144-56c88d35908a?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80" alt="Great Wall of China">
+                    </a>
+                    <div class="thumbnail-caption">Great Wall of China</div>
+                </div>
+                
+                <!-- Image 6 -->
+                <div class="thumbnail">
+                    <a href="https://images.unsplash.com/photo-1586446910111-8ff88a687afe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
+                       data-lightbox="gallery" 
+                       data-title="Colosseum, Rome"
+                       data-description="The Colosseum is an oval amphitheatre in the centre of the city of Rome, Italy, just east of the Roman Forum. It is the largest ancient amphitheatre ever built, and is still the largest standing amphitheatre in the world today, despite its age. Construction began under the emperor Vespasian in 72 and was completed in 80 AD under his successor and heir, Titus. Further modifications were made during the reign of Domitian (81–96). The three emperors that were patrons of the work are known as the Flavian dynasty, and the amphitheatre was named the Flavian Amphitheatre by later classicists and archaeologists for its association with their family name (Flavius). The Colosseum is built of travertine limestone, tuff (volcanic rock), and brick-faced concrete. It could hold an estimated 50,000 to 80,000 spectators at various points in its history, having an average audience of some 65,000; it was used for gladiatorial contests and public spectacles including animal hunts, executions, re-enactments of famous battles, and dramas based on Roman mythology, and briefly mock sea battles.">
+                        <img src="https://images.unsplash.com/photo-1586446910111-8ff88a687afe?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80" alt="Colosseum">
+                    </a>
+                    <div class="thumbnail-caption">Colosseum</div>
+                </div>
+            </div>
+            
+            <p class="instructions">Scroll down in the description area to read more about each landmark when viewing images in full size.</p>
+        </div>
+        
+        <footer>
+            <p>World Landmarks Gallery &copy; 2023 | Created with Lightbox Library</p>
+        </footer>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script>
+    
+    <script>
+        // Lightbox configuration
+        lightbox.option({
+            'resizeDuration': 400,
+            'wrapAround': true,
+            'imageFadeDuration': 400,
+            'positionFromTop': 60,
+            'showImageNumberLabel': true,
+            'alwaysShowNavOnTouchDevices': true
+        });
+        
+        // Custom function to add scrolling text to lightbox
+        function addScrollingText() {
+            // Wait for lightbox to be fully loaded
+            setTimeout(function() {
+                const lightboxContainer = document.querySelector('.lightbox');
+                const lightboxImage = document.querySelector('.lightbox .lb-image');
+                const lightboxDataContainer = document.querySelector('.lightbox .lb-dataContainer');
+                
+                if (lightboxContainer && !document.querySelector('.scrolling-text-container')) {
+                    // Get the active image link
+                    const activeLink = document.querySelector('.lightbox .lb-nav a.lb-prev').nextElementSibling;
+                    const description = activeLink.getAttribute('data-description');
+                    
+                    if (description) {
+                        // Create scrolling text container
+                        const scrollingContainer = document.createElement('div');
+                        scrollingContainer.className = 'scrolling-text-container';
+                        
+                        // Create scrolling text element
+                        const scrollingText = document.createElement('div');
+                        scrollingText.className = 'scrolling-text';
+                        scrollingText.textContent = description;
+                        
+                        // Append text to container and container to lightbox
+                        scrollingContainer.appendChild(scrollingText);
+                        lightboxDataContainer.appendChild(scrollingContainer);
+                    }
+                }
+            }, 100);
+        }
+        
+        // Add event listeners for lightbox
+        document.addEventListener('click', function(e) {
+            if (e.target.closest('.thumbnail a')) {
+                setTimeout(addScrollingText, 200);
+            }
+        });
+        
+        // Also trigger when navigating between images
+        document.addEventListener('keydown', function(e) {
+            if (e.keyCode === 37 || e.keyCode === 39) { // Left or right arrow
+                setTimeout(addScrollingText, 200);
+            }
+        });
+        
+        // Add click effect to thumbnails
+        $(document).ready(function() {
+            $('.thumbnail').click(function() {
+                $(this).addClass('active').siblings().removeClass('active');
+            });
+        });
+    </script>
+</body>
+</html>

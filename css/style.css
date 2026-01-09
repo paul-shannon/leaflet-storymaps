@@ -5,6 +5,12 @@ body {
   overflow: hidden;
 }
 
+#navbar {
+    position: absolute;
+    height: 60px;
+    width: 100vw;
+}
+
 #map {
   height: 200px;
   width: 100vw;
@@ -174,3 +180,7 @@ h2 {
   font-size: 1.1em;
   font-weight: normal;
 }
+
+.filterMenuButton{
+   font-size: 24px;
+   }

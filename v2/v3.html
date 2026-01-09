@@ -23,7 +23,7 @@
 
 
   <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css" integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
-  <link rel="stylesheet" href="markers/leaflet.extra-markers.min.css">
+  <!-- link rel="stylesheet"  href="markers/leaflet.extra-markers.min.css" -->
   <link rel="stylesheet" href="css/adaptive.css">
        
   <link rel="shortcut icon" href="#" />
@@ -36,30 +36,75 @@
 
   <div id="header" class="header">
     <b>Visible on Ancestral Lands: Coast Salish Public Art Works in
-      King County.</b></br>
-     This website acknowledges that the lands and art work documented
-    here are the ancestral home of the Coast Salish people.
-    <br>THANKS TO 4Culture/King County Lodging Tax Fund for funding support.
+      King County. </b><br>
+    <button style="margin-top: 10px; padding: 5px; border-radius: 10px; background-color: #DED;"
+            id='creditsButton'>Credits, Gratitude, Background</button>
   </div>
 
-  <div id="artwork">
-    <div id="thumbnail-grid" class="thumbnail-grid-container"></div>
-  </div>
-  <div id="map"></div>
+    <dialog id="creditsDialog">
+      <button id='dialogCloseButton' style="float: right; margin:20px;"
+              onclick="document.getElementById('creditsDialog').close()">close</button>
+     <div style="margin: 100px">
+     This website acknowledges that the lands and art work documented
+    here are the ancestral home of the Coast Salish people.
+    <p>THANKS TO 4Culture/King County Lodging Tax Fund for funding
+    support.
+     </div>
+     </dialog>
+
+
+<div id="navbar">
+<ul>
+  <li id="navAll" class='navEntry'> All</li>
+  <li id="navLegends" class='navEntry'> Legends</li>
+  <li id="navTribalCanoeJourney" class='navEntry'> Tribal Canoe Journey</li>
+  <li id="navWeaving" class='navEntry'> Weaving</li>
+  <li id="navOrcas" class='navEntry'> Orcas</li>
+  <li id="navArt-making" class='navEntry'> Art-making</li>
+  <li id="navMuseums-Galleries" class='navEntry'> Museums/Galleries</li>
+  <li id="navSalmon" class='navEntry'> Salmon</li>
+</ul>
 </div>
+
+
+  <div id="artwork-wrapper">
+    <div id="artwork">
+      <div id="thumbnail-grid" class="thumbnail-grid-container"></div>
+    </div>
+  </div id="artwork-wrapper">
+  
+  <div id="map"></div>
+
+
+</div id="mainDiv">
 
 
 <script type="text/javascript">
 //--------------------------------------------------------------------------------
 $(function(){
-    console.log("document ready");
+   console.log("document ready");
+   $(".navEntry").on('click', function(e){
+       let targetCategory = e.target.innerText;
+       console.log(targetCategory)
+       main.showSites([targetCategory])
+      })
+
+    $("#creditsButton").on('click', function(){
+        console.log('click')
+        $("#creditsDialog")[0].showModal()
+        })
+    
+//    $("#creditsButton").on('click', function(e){
+//       console.log("--- creditsButton click");
+//       
+//       })
 
 });
 //--------------------------------------------------------------------------------
 </script>
 
   <!-- script type="text/javascript" src="google-doc-url.js"></script -->
-  <script type="text/javascript" src="markers/leaflet.extra-markers.min.js"></script>
+  <!-- script type="text/javascript" src="markers/leaflet.extra-markers.min.js"></script-->
   <script type="text/javascript" src="scripts/constants.js"></script>
   <script type="text/javascript" src="scripts/jquery.csv.js"></script>
   <!-- script type="text/javascript" src="scripts/newstorymap.js"></script -->
@@ -99,57 +144,6 @@ $(function(){
 
    </script>
 
-
-
-    <dialog id="imageModal">
-        <div class="image-container">
-            <button class="close-btn" onclick="closeImageModal()">×</button>
-            <img src="media/ravensJourney-trimmed.png" alt="Full size image">
-            <div style="overflow-y: auto; padding: 30px;
-                        padding-top:0px;
-                        padding-bottom: 0px;">
-              <h4>Raven's Journey</h4>
-
-<p>This sculpture was created by Marvin Oliver especially to honor and
-inspire students at the University of Washington. At a celebration of
-its installation, he said,
-
-<blockquote>“The canoe is a means of sharing… food, regalia, love for
-our countrymen, our environment. It is critical to make the canoe
-move. That means you need to have paddles. Those paddles are your
-education. And it takes a collective effort for your education.</blockquote>
-
-<p>The canoe is your journey. You’ll be pullers, and as you graduate
-you will be a skipper. You will have your family, your friends, and
-the career. Those are the ones that will help you make it work.
-
-<p>There’s days you can paddle far. There’s days you cannot
-paddle. It’s an amazing exciting venture.”
-
-<p>The following description of the elements in the sculpture is also
-provided by the artist, Marvin Oliver:
-
-  <ul>
-
-    <li> THE RAVEN: Denotes the symbol of humor, cultural hero, and transformer. The Raven, like us, changes to adapt to the environment. I see this as similar to students’ path at the University,, growing, learning adapting and moving forward in their journey.
-    <li> THE SALMON: Represents our most vital resource and provider of life. It is a symbol of abundance and prosperity. We honor the salmon and give back during the salmon ceremony.
-    <li> THE CANOE: A mode of transportation, the canoe, also bonded extended families and was used traditionally as a burial site connecting us to our ancestors. This Salish design (form) is unique to our region.
-    <li> THE WOLF: Depicts our guardian. He/she is the provider of food, home and spirituality, a symbol of strength in family, kinship and unity.
-    <li>THE MOON: The protector and the guardian of the night. The moon protects your journey.”
-</ul>
-
-<p>Location: The work is on the far south wall of the University of
-Washington Student Union Building, the “HUB,” 4001 E Stevens Way NE,
-Seattle, WA 98195.
-
-<p>This art was made possible by the student funding of the HUB
-renovation in 2010-2012.
-
-<p>Photograph by Jayna Milan.
-
-              </div>
-        </div>
-    </dialog>
 
 
 </body>

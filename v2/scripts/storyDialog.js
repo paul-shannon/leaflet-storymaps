@@ -9,7 +9,9 @@ export class StoryDialog {
        const descriptiveText = this.site['Description'];
        var d = `<dialog id="${id}"` +
             '  <div class="image-container">' +
-            `     <img src="${imgSrc}" style="margin: 0 auto; width: 50%" alt="alt"> ` + 
+               '<button style="float: right; margin:20px;" ' + 
+               `onclick="document.getElementById('${id}').close()">close</button> ` +
+            `    <img src="${imgSrc}" style="margin: 0 auto; width: 50%" alt="alt"> ` + 
             '    <div style="overflow-y: auto; padding: 30px; padding-top:0px; padding-bottom: 0px;">' +
             `<h4>${h4}</h4>` +
             `${descriptiveText}` +
@@ -19,4 +21,6 @@ export class StoryDialog {
       body.append (d);
       } // createDialog ctor
 
-} // StoryDialog class  
+} // StoryDialog class
+
+

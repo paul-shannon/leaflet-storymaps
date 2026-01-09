@@ -15,6 +15,7 @@ export class StoryMarker {
                                    fillColor: "blue",
                                    fillOpacity: 0.5
                                    })
+       this.marker = marker;
        marker.addTo(map)
        marker.bindPopup(this.title)
        marker.on('mouseover', function (e) {

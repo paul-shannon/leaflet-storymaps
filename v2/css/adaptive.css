@@ -15,6 +15,7 @@ body {
   display: grid;
   grid-template-areas:
     'header'
+    'navbar'
     'map'
     'artwork';
   background-color: white;
@@ -24,9 +25,13 @@ body {
   overflow-y: auto; /* Vertical scrollbar on the outermost grid */
   }
 
+#navbar {
+  grid-area: navbar;
+   }
+
 #header {
   grid-area: header;
-  background-color: beige;
+  background-color: #CDC;
   text-align: center;
   color: black;
   border: 1px solid black;
@@ -47,10 +52,14 @@ body {
   //left: 0;
   }
 
-#artwork{
-  background-color: #f8f8f8;
+#artwork-wrapper{
   border: 1px solid black;
   border-radius: 10px;
+  overflow: hidden;
+}
+
+#artwork{
+  background-color: #f8f8f8;
   padding: 20px;
   height: 85vh;
   overflow-y: auto;
@@ -122,6 +131,26 @@ dialog::backdrop {
     background: rgba(0, 0, 0, 0.9);
 }
 
+#navbar ul {
+  margin: 0px;
+  background-color: white; // #DED;
+  }
+
+#navbar ul li {
+  display: inline-block;
+  font-color: blue;
+  margin-left: 5px;
+  padding: 5px;
+  border: 1px solid black;
+  border-radius: 5px;
+  background-color: #EFE;
+  }
+
+#navbar ul li:hover {
+  background-color: #CDC;
+  }
+
+
 
 
 /*
@@ -133,18 +162,21 @@ dialog::backdrop {
 
 @media (min-width: 800px) {
     #header  {grid-area: 1 / 1 / 1 / 3}
-    #artwork {grid-area: 2 / 1 / 2 / 1;}
-    #map     {grid-area: 2 / 2 / 2 / 3;}
+    #navbar  {grid-area: 2 / 1 / 2 / 3}
+    #artwork {grid-area: 3 / 1 / 3 / 1;}
+    #map     {grid-area: 3 / 2 / 3 / 3;}
 
 }
 
 @media (max-width: 799px) {
     #header  {grid-area: 1 / 1 / 1 / 3;
               height: 100px;}
-    #artwork {grid-area: 2 / 1 / 3 / 3;
+    #navbar  {grid-area: 2 / 1 / 2 / 3;
+              height: 60px;}
+    #artwork {grid-area: 3 / 1 / 4 / 3;
               height: calc((100vh - 100px)/2);
               }
-    #map     {grid-area: 3 / 1 / 4 / 3;
+    #map     {grid-area: 4 / 1 / 5 / 3;
               height: calc((100vh - 160px)/2);
               }
     }

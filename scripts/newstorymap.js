@@ -1,228 +1,70 @@
-$(window).on('load', function() {
-  var documentSettings = {};
-    console.log("storymap.js, on load");
-  // Some constants, such as default settings
-  const CHAPTER_ZOOM = 15;
-
-  // First, try reading Options.csv
-  $.get('csv/Options.csv', function(options) {
-
-    $.get('csv/Chapters.csv', function(chapters) {
-      initMap(
-        $.csv.toObjects(options),
-        $.csv.toObjects(chapters)
-      )
-    }).fail(function(e) { alert('Found Options.csv, but could not read Chapters.csv') });
-
-  // If not available, try from the Google Sheet
-  }).fail(function(e) {
-
-    var parse = function(res) {
-      return Papa.parse(Papa.unparse(res[0].values), {header: true} ).data;
-    }
-
-    // First, try reading data from the Google Sheet
-    if (typeof googleDocURL !== 'undefined' && googleDocURL) {
-
-      if (typeof googleApiKey !== 'undefined' && googleApiKey) {
-
-        var apiUrl = 'https://sheets.googleapis.com/v4/spreadsheets/'
-        var spreadsheetId = googleDocURL.split('/d/')[1].split('/')[0];
-
-        $.when(
-          $.getJSON(apiUrl + spreadsheetId + '/values/Options?key=' + googleApiKey),
-          $.getJSON(apiUrl + spreadsheetId + '/values/Chapters?key=' + googleApiKey),
-        ).then(function(options, chapters) {
-          initMap(parse(options), parse(chapters))
-        })
-
-      } else {
-        alert('You load data from a Google Sheet, you need to add a free Google API key')
-      }
-
-    } else {
-      alert('You need to specify a valid Google Sheet (googleDocURL)')
-    }
-
-  })
-
-
-
-  /**
-  * Reformulates documentSettings as a dictionary, e.g.
-  * {"webpageTitle": "Leaflet Boilerplate", "infoPopupText": "Stuff"}
-  */
-  function createDocumentSettings(settings) {
-    for (var i in settings) {
-      var setting = settings[i];
-      documentSettings[setting.Setting] = setting.Customize;
-    }
+//--------------------------------------------------------------------------------
+var documentSettings = {};
+function getSetting(s) {
+  return documentSettings[constants[s]];
   }
 
-  /**
-   * Returns the value of a setting s
-   * getSetting(s) is equivalent to documentSettings[constants.s]
-   */
-  function getSetting(s) {
-    return documentSettings[constants[s]];
-  }
 
-  /**
-   * Returns the value of setting named s from constants.js
-   * or def if setting is either not set or does not exist
-   * Both arguments are strings
-   * e.g. trySetting('_authorName', 'No Author')
-   */
-  function trySetting(s, def) {
-    s = getSetting(s);
-    if (!s || s.trim() === '') { return def; }
-    return s;
-  }
-
-  /**
-   * Loads the basemap and adds it to the map
-   */
-  function addBaseMap() {
-    var basemap = trySetting('_tileProvider', 'Stamen.TonerLite');
-    L.tileLayer.provider(basemap, {
-      maxZoom: 18,
-      
-      // Pass the api key to most commonly used parameters
-      apiKey: trySetting('_tileProviderApiKey', ''),
-      apikey: trySetting('_tileProviderApiKey', ''),
-      key: trySetting('_tileProviderApiKey', ''),
-      accessToken: trySetting('_tileProviderApiKey', '')
-    }).addTo(map);
-  }
-
-  function initMap(options, chapters) {
-    createDocumentSettings(options);
-
-    var chapterContainerMargin = 70;
-
-    document.title = getSetting('_mapTitle');
-    $('#header').append('<h1>' + (getSetting('_mapTitle') || '') + '</h1>');
-    $('#header').append('<h2>' + (getSetting('_mapSubtitle') || '') + '</h2>');
-
-    // Add logo
-    if (getSetting('_mapLogo')) {
-      $('#logo').append('<img src="' + getSetting('_mapLogo') + '" />');
-      $('#top').css('height', '60px');
-    } else {
-      $('#logo').css('display', 'none');
-      $('#header').css('padding-top', '25px');
-    }
-
-    // Load tiles
-    addBaseMap();
-
-    // Add zoom controls if needed
-    if (getSetting('_zoomControls') !== 'off') {
-      L.control.zoom({
-        position: getSetting('_zoomControls')
-      }).addTo(map);
-    }
-
-    var markers = [];
-
-    var markActiveColor = function(k) {
-      /* Removes marker-active class from all markers */
-      for (var i = 0; i < markers.length; i++) {
-        if (markers[i] && markers[i]._icon) {
-          markers[i]._icon.className = markers[i]._icon.className.replace(' marker-active', '');
-
-          if (i == k) {
-            /* Adds marker-active class, which is orange, to marker k */
-            markers[k]._icon.className += ' marker-active';
+function mapChapter(i, markers){
+       var c = chapters[i];
+       if(!isNaN(parseFloat(c['Latitude'])) && !isNaN(parseFloat(c['Longitude']))) {
+          var lat = parseFloat(c['Latitude']);
+          var lon = parseFloat(c['Longitude']);
+          chapterCount = i;
+          markers.push(
+             L.marker([lat, lon], {
+               icon: L.ExtraMarkers.icon({
+               icon: 'fa-number',
+               number: c['Marker'] === 'Numbered'
+                 ? chapterCount
+                 : (c['Marker'] === 'Plain'
+                   ? ''
+                   : c['Marker']), 
+               markerColor: c['Marker Color'] || 'blue'
+               }),
+             opacity: c['Marker'] === 'Hidden' ? 0 : 0.9,
+             interactive: c['Marker'] === 'Hidden' ? false : true,
+             } // L.marker
+        )); // push
+       } else {
+          markers.push(null);
           }
-        }
-      }
-    }
-
-    var pixelsAbove = [];
-    var chapterCount = 0;
-
-    var currentlyInFocus; // integer to specify each chapter is currently in focus
-    var overlay;  // URL of the overlay for in-focus chapter
-    var geoJsonOverlay;
-
-    window.chapters = chapters;
-    console.log("--- window.chapters assigned");      
-
-    for (i in chapters) {
-      var c = chapters[i];
-
-      if ( !isNaN(parseFloat(c['Latitude'])) && !isNaN(parseFloat(c['Longitude']))) {
-        var lat = parseFloat(c['Latitude']);
-        var lon = parseFloat(c['Longitude']);
-        chapterCount += 1;
-        c['fubar'] == chapterCount;
-
-        markers.push(
-          L.marker([lat, lon], {
-            icon: L.ExtraMarkers.icon({
-              icon: 'fa-number',
-              number: c['Marker'] === 'Numbered'
-                ? chapterCount
-                : (c['Marker'] === 'Plain'
-                  ? ''
-                  : c['Marker']), 
-              markerColor: c['Marker Color'] || 'blue'
-            }),
-            opacity: c['Marker'] === 'Hidden' ? 0 : 0.9,
-            interactive: c['Marker'] === 'Hidden' ? false : true,
-          }
-        ));
-
-      } else {
-        markers.push(null);
-      }
 
       // Add chapter container
       var container = $('<div></div>', {
-        id: 'container' + i,
-        class: 'chapter-container'
-      });
-
-
-      // Add media and credits: YouTube, audio, or image
+         id: 'container' + i,
+         class: 'chapter-container'
+         });
       var media = null;
       var mediaContainer = null;
-
-      // Add media source
       var source = '';
       if (c['Media Credit Link']) {
-        source = $('<a>', {
-          text: c['Media Credit'],
-          href: c['Media Credit Link'],
-          target: "_blank",
-          class: 'source'
-        });
+         source = $('<a>', {
+            text: c['Media Credit'],
+            href: c['Media Credit Link'],
+            target: "_blank",
+            class: 'source'
+          });
       } else {
-        source = $('<span>', {
-          text: c['Media Credit'],
-          class: 'source'
-        });
-      }
-
-      // YouTube
+           source = $('<span>', {
+           text: c['Media Credit'],
+           class: 'source'
+           });
+      } // else
       if (c['Media Link'] && c['Media Link'].indexOf('youtube.com/') > -1) {
-        media = $('<iframe></iframe>', {
-          src: c['Media Link'],
-          width: '100%',
-          height: '100%',
-          frameborder: '0',
-          allow: 'autoplay; encrypted-media',
-          allowfullscreen: 'allowfullscreen',
-        });
-
+         media = $('<iframe></iframe>', {
+           src: c['Media Link'],
+           width: '100%',
+           height: '100%',
+           frameborder: '0',
+           allow: 'autoplay; encrypted-media',
+           allowfullscreen: 'allowfullscreen',
+           });
         mediaContainer = $('<div></div>', {
-          class: 'img-container'
-        }).append(media).after(source);
-      }
-
-      // If not YouTube: either audio or image
-      var mediaTypes = {
+           class: 'img-container'
+           }).append(media).after(source);
+        }
+      var mediaTypes = {       // If not YouTube: either audio or image
         'jpg': 'img',
         'jpeg': 'img',
         'png': 'img',
@@ -231,17 +73,16 @@ $(window).on('load', function() {
         'mp3': 'audio',
         'ogg': 'audio',
         'wav': 'audio',
-      }
+        }
 
       var mediaExt = c['Media Link'] ? c['Media Link'].split('.').pop().toLowerCase() : '';
       var mediaType = mediaTypes[mediaExt];
-
       if (mediaType) {
         media = $('<' + mediaType + '>', {
           src: c['Media Link'],
           controls: mediaType === 'audio' ? 'controls' : '',
           alt: c['Chapter']
-        });
+          });
 
         var enableLightbox = getSetting('_enableLightbox') === 'yes' ? true : false;
         if (enableLightbox && mediaType === 'img') {
@@ -252,22 +93,107 @@ $(window).on('load', function() {
             'data-alt': c['Chapter'],
           });
           media = lightboxWrapper.append(media);
-        }
+          }
 
         mediaContainer = $('<div></div', {
           class: mediaType + '-container'
-        }).append(media).after(source);
-      }
+          }).append(media).after(source);
+        } // if mediaType
 
       container
         .append('<p class="chapter-header">' + c['Chapter'] + '</p>')
         .append(media ? mediaContainer : '')
         .append(media ? source : '')
         .append('<p class="description">' + c['Description'] + '</p>');
-
       $('#contents').append(container);
 
+} // mapChapter    
+//--------------------------------------------------------------------------------
+
+$(window).on('load', function() {
+  //var documentSettings = {};
+  console.log("storymap.js, on load");
+  const CHAPTER_ZOOM = 15;
+  $.get('csv/Options.csv', function(options) {
+    $.get('csv/Chapters.csv', function(chapters) {
+      initMap(
+        $.csv.toObjects(options),
+        $.csv.toObjects(chapters)
+        )
+       }).fail(function(e) { alert('Found Options.csv, but could not read Chapters.csv') });
+    }).fail(function(e){
+       console.log("failure with options.csv");
+    })
+
+  function createDocumentSettings(settings) {
+    for (var i in settings) {
+      var setting = settings[i];
+      documentSettings[setting.Setting] = setting.Customize;
+      }
+     }
+
+//  function getSetting(s) {
+//    return documentSettings[constants[s]];
+//    }
+
+  function trySetting(s, def) {
+    s = getSetting(s);
+    if (!s || s.trim() === '') { return def; }
+    return s;
     }
+
+  function addBaseMap() {
+     var basemap = trySetting('_tileProvider', 'Stamen.TonerLite');
+     L.tileLayer.provider(basemap, {
+       maxZoom: 18,
+       apiKey: trySetting('_tileProviderApiKey', ''),
+       apikey: trySetting('_tileProviderApiKey', ''),
+       key: trySetting('_tileProviderApiKey', ''),
+       accessToken: trySetting('_tileProviderApiKey', '')
+       }).addTo(map);
+     }
+
+  function initMap(options, chapters) {
+    createDocumentSettings(options);
+    var chapterContainerMargin = 70;
+    document.title = getSetting('_mapTitle');
+    $('#header').append('<h1>' + (getSetting('_mapTitle') || '') + '</h1>');
+    $('#header').append('<h2>' + (getSetting('_mapSubtitle') || '') + '</h2>');
+    if (getSetting('_mapLogo')) {
+      $('#logo').append('<img src="' + getSetting('_mapLogo') + '" />');
+      $('#top').css('height', '60px');
+    } else {
+      $('#logo').css('display', 'none');
+      $('#header').css('padding-top', '25px');
+    }
+    addBaseMap();
+    if (getSetting('_zoomControls') !== 'off') {
+       L.control.zoom({
+          position: getSetting('_zoomControls')
+          }).addTo(map);
+       }
+    var markActiveColor = function(k) {
+      for (var i = 0; i < markers.length; i++) {
+         if (markers[i] && markers[i]._icon) {
+            markers[i]._icon.className = markers[i]._icon.className.replace(' marker-active', '');
+            if (i == k) {
+               markers[k]._icon.className += ' marker-active';
+               }
+            }
+        } // for i
+      } // markActiveColor
+    var pixelsAbove = [];
+    var chapterCount = 0;
+    var currentlyInFocus; // integer to specify each chapter is currently in focus
+    var overlay;  // URL of the overlay for in-focus chapter
+    var geoJsonOverlay;
+    window.chapters = chapters;
+    console.log("--- window.chapters assigned, length: " + chapters.length);
+
+    var markers = [];
+    for (i in chapters) {
+        mapChapter(i, markers)
+       } // for i in chapters
 
     changeAttribution();
 

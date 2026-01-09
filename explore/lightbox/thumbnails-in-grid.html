@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thumbnail Grid - CSS Grid</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <style>
+        .thumbnail-grid-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(100px, 1fr));
+            gap: 16px;
+            padding: 20px;
+            }
+
+        .thumbnail {
+            width: 100%;
+            height: 100px;
+            object-fit: cover;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+            transition: transform 0.3s ease;
+            }
+
+        .thumbnail:hover {
+            transform: scale(1.05);
+            }
+    </style>
+</head>
+<body>
+    <div class="thumbnail-grid-container">
+
+        <img src="duwamishLonghouseFloor-thumb.jpg" alt="Thumbnail 1"
+            class="thumbnail" name="duwamishLonghouseFloor">
+        <img src="orcaDorsalFin-thumb.jpg" alt="Thumbnail 1"
+             class="thumbnail" name="orcaDorsalFin">
+        <img src="ravensJourney-thumb.jpg" alt="Thumbnail 1"
+             class="thumbnail" name="ravensJourney" >
+        <img src="ravensJourney-trimmed-thumbnail.png" alt="Thumbnail 1"
+            class="thumbnail" name="ravensJourney-trimmed">
+    </div>
+    <script>
+      $(".thumbnail").on("click", function(){
+          console.log("thumbnail clicked");
+          console.log(this);
+          console.log(this.name)
+      })
+    </script>
+</body>
+</html>

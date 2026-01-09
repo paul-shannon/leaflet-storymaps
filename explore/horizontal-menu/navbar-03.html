@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>navbar 2</title>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+<style>
+
+body{
+   margin: 100px;
+   margin-top: 30px;
+   font-family: "New York Times-Roman";
+   font-size: 22px;
+   height: 100%;
+   }
+
+
+body {
+  margin: 0;
+}
+
+
+#navbar ul {
+  background-color: #DED;
+  }
+
+#navbar ul li {
+  display: inline-block;
+  font-color: blue;
+  margin-left: 10px;
+  padding: 10px;
+  }
+
+#navbar ul li:hover {
+  background-color: #CDC;
+  }
+
+
+</style>
+
+<script>
+$(document).ready(function(){
+  console.log("document ready")
+
+  $(".navEntry").on('click', function(e){
+    console.log(e.target.innerText)
+    })
+
+  });
+
+</script>
+
+</head>
+<body>
+
+<div id="navbar">
+<ul>
+  <li id="navLegends" class='navEntry'> Legends</li>
+  <li id="navTribalCanoeJourney" class='navEntry'> Tribal Canoe Journey</li>
+  <li id="navWeaving" class='navEntry'> Weaving</li>
+  <li id="navOrcas" class='navEntry'> Orcas</li>
+  <li id="navArt-making" class='navEntry'> Art-making</li>
+  <li id="navMuseums-Galleries" class='navEntry'> Museums/Galleries</li>
+  <li id="navSalmon" class='navEntry'> Salmon</li>
+</ul>
+</div>
+
+
+</body>
+</html>

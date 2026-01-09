@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <style>
+        dialog {
+            border: none;
+            border-radius: 8px;
+            padding: 0;
+        }
+        dialog::backdrop {
+            background: rgba(0, 0, 0, 0.5);
+        }
+        dialog img {
+            max-width: 80vw;
+            max-height: 80vh;
+        }
+    </style>
+</head>
+<body>
+    <button onclick="document.getElementById('imgDialog').showModal()">
+        Show Image
+    </button>
+
+    <dialog id="imgDialog">
+        <img src="https://picsum.photos/400/300" alt="Sample Image">
+        <br>
+        <button onclick="document.getElementById('imgDialog').close()">
+            Close
+        </button>
+    </dialog>
+</body>
+</html>
+

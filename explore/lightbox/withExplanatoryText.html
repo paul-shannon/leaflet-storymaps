@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lightbox Gallery with Text Descriptions</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/css/lightbox.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            background: linear-gradient(135deg, #6a11cb 0%, #2575fc 100%);
+            color: #333;
+            line-height: 1.6;
+            padding: 20px;
+            min-height: 100vh;
+        }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        header {
+            text-align: center;
+            margin-bottom: 40px;
+            color: white;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.3);
+        }
+        
+        h1 {
+            font-size: 2.8rem;
+            margin-bottom: 10px;
+        }
+        
+        .subtitle {
+            font-size: 1.2rem;
+            opacity: 0.9;
+        }
+        
+        .gallery-container {
+            background-color: white;
+            border-radius: 12px;
+            padding: 30px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.2);
+        }
+        
+        .intro-text {
+            text-align: center;
+            margin-bottom: 30px;
+            font-size: 1.1rem;
+            color: #555;
+        }
+        
+        .gallery {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 25px;
+        }
+        
+        .thumbnail {
+            border-radius: 10px;
+            overflow: hidden;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            background: white;
+        }
+        
+        .thumbnail:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 12px 20px rgba(0,0,0,0.15);
+        }
+        
+        .thumbnail img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+            display: block;
+            border-bottom: 1px solid #eee;
+        }
+        
+        .thumbnail-caption {
+            padding: 15px;
+            text-align: center;
+            font-weight: 600;
+            color: #444;
+        }
+        
+        .image-description {
+            display: none;
+        }
+        
+        .lightbox-custom-content {
+            display: none;
+        }
+        
+        footer {
+            text-align: center;
+            margin-top: 40px;
+            color: white;
+            font-size: 0.9rem;
+            opacity: 0.8;
+        }
+        
+        /* Custom styling for lightbox overlay */
+        .lightboxOverlay {
+            background: rgba(0, 0, 0, 0.85) !important;
+        }
+        
+        .lightbox .lb-image {
+            border-radius: 8px;
+        }
+        
+        .lightbox .lb-nav a.lb-prev, 
+        .lightbox .lb-nav a.lb-next {
+            opacity: 0.9;
+        }
+        
+        .lightbox .lb-data .lb-caption {
+            font-size: 1.1rem;
+            font-weight: 600;
+            line-height: 1.5;
+            color: #f1f1f1;
+        }
+        
+        .lightbox .lb-data .lb-details {
+            width: 100%;
+            text-align: center;
+            padding-top: 10px;
+        }
+        
+        .lightbox .lb-data .lb-number {
+            color: #ddd;
+            font-size: 0.9rem;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Travel Gallery</h1>
+            <p class="subtitle">Explore beautiful destinations around the world</p>
+        </header>
+        
+        <div class="gallery-container">
+            <p class="intro-text">Click on any image to view it in full size with detailed description.</p>
+            
+            <div class="gallery">
+                <!-- Image 1 -->
+                <div class="thumbnail">
+                    <a href="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
+                       data-lightbox="gallery" 
+                       data-title="Mountain Majesty - The Swiss Alps | The Swiss Alps offer some of the most breathtaking mountain scenery in the world. With peaks reaching over 4,000 meters, these mountains attract hikers, climbers, and nature lovers from across the globe.">
+                        <img src="https://images.unsplash.com/photo-1506905925346-21bda4d32df4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80" alt="Swiss Alps">
+                    </a>
+                    <div class="thumbnail-caption">Swiss Alps</div>
+                </div>
+                
+                <!-- Image 2 -->
+                <div class="thumbnail">
+                    <a href="https://images.unsplash.com/photo-1516483638261-f4dbaf036963?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
+                       data-lightbox="gallery" 
+                       data-title="Tropical Paradise - Bali, Indonesia | Bali is known as the Island of the Gods. With its lush jungles, stunning beaches, and vibrant culture, it's no wonder this Indonesian island is a top destination for travelers seeking both adventure and relaxation.">
+                        <img src="https://images.unsplash.com/photo-1516483638261-f4dbaf036963?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80" alt="Bali Beach">
+                    </a>
+                    <div class="thumbnail-caption">Bali Beach</div>
+                </div>
+                
+                <!-- Image 3 -->
+                <div class="thumbnail">
+                    <a href="https://images.unsplash.com/photo-1534008897995-27a23e859048?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
+                       data-lightbox="gallery" 
+                       data-title="Urban Exploration - New York City | The concrete jungle where dreams are made, New York City never sleeps. From Times Square to Central Park, the city offers an endless array of experiences for every type of traveler.">
+                        <img src="https://images.unsplash.com/photo-1534008897995-27a23e859048?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80" alt="New York City">
+                    </a>
+                    <div class="thumbnail-caption">New York City</div>
+                </div>
+                
+                <!-- Image 4 -->
+                <div class="thumbnail">
+                    <a href="https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
+                       data-lightbox="gallery" 
+                       data-title="Desert Dreams - Sahara Desert | The Sahara is the world's largest hot desert, covering much of North Africa. Its vast sand dunes, starry nights, and unique ecosystems make it a bucket-list destination for adventurous travelers.">
+                        <img src="https://images.unsplash.com/photo-1544551763-46a013bb70d5?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80" alt="Sahara Desert">
+                    </a>
+                    <div class="thumbnail-caption">Sahara Desert</div>
+                </div>
+                
+                <!-- Image 5 -->
+                <div class="thumbnail">
+                    <a href="https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
+                       data-lightbox="gallery" 
+                       data-title="Northern Lights - Iceland | The Aurora Borealis, or Northern Lights, is a natural light display that dances across the Arctic skies. Iceland offers some of the best viewing opportunities for this spectacular phenomenon.">
+                        <img src="https://images.unsplash.com/photo-1566073771259-6a8506099945?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80" alt="Northern Lights">
+                    </a>
+                    <div class="thumbnail-caption">Northern Lights</div>
+                </div>
+                
+                <!-- Image 6 -->
+                <div class="thumbnail">
+                    <a href="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=1000&q=80" 
+                       data-lightbox="gallery" 
+                       data-title="Island Getaway - Maldives | The Maldives is a tropical paradise made up of 26 atolls in the Indian Ocean. Known for its crystal-clear waters, overwater bungalows, and vibrant marine life, it's the ultimate luxury escape.">
+                        <img src="https://images.unsplash.com/photo-1520250497591-112f2f40a3f4?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=300&q=80" alt="Maldives">
+                    </a>
+                    <div class="thumbnail-caption">Maldives</div>
+                </div>
+            </div>
+        </div>
+        
+        <footer>
+            <p>Travel Gallery Example &copy; 2023 | Created with Lightbox Library</p>
+        </footer>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/lightbox2/2.11.4/js/lightbox.min.js"></script>
+    
+    <script>
+        // Lightbox configuration
+        lightbox.option({
+            'resizeDuration': 400,
+            'wrapAround': true,
+            'imageFadeDuration': 400,
+            'positionFromTop': 80,
+            'showImageNumberLabel': true,
+            'alwaysShowNavOnTouchDevices': true
+        });
+        
+        // Add some interactivity to the page
+        $(document).ready(function() {
+            // Add click effect to thumbnails
+            $('.thumbnail').click(function() {
+                $(this).addClass('active').siblings().removeClass('active');
+            });
+            
+            // Add keyboard navigation info
+            $(document).keydown(function(e) {
+                if (e.keyCode == 37 || e.keyCode == 39) {
+                    $('.lightbox .lb-nav').css('opacity', '1');
+                    setTimeout(function() {
+                        $('.lightbox .lb-nav').css('opacity', '0.8');
+                    }, 1000);
+                }
+            });
+        });
+    </script>
+</body>
+</html>

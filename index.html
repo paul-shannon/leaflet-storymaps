@@ -44,6 +44,8 @@
   <div id="title">
     <div id="logo"></div>
     <div id="header"></div>
+    <div id="menubar" style="margin: 10px; height: 50px; border: 1px
+    solid gray; border-radius: 10px;"></div>
   </div>
 
   <div id="narration">
@@ -65,15 +67,32 @@
       zoomControl: true,
       tap: false
     });
-  $(function(){
-      console.log("document ready");});
-  </script>
+   function installFilteringMenu(){
+      for(let c=0; c < chapters.length; c++){
+         var newValue = chapters[c].categories;
+         $("#menubar").append("<button class='filterMenuButton'>" + newValue + "</button>");
+         } // for c
+       } // installFilteringMenu
+//--------------------------------------------------------------------------------
+ $(function(){
+    console.log("document ready");
+    });
+//--------------------------------------------------------------------------------
+</script>
 
   <script type="text/javascript" src="google-doc-url.js"></script>
   <script type="text/javascript" src="markers/leaflet.extra-markers.min.js"></script>
   <script type="text/javascript" src="scripts/constants.js"></script>
   <script type="text/javascript" src="scripts/jquery.csv.js"></script>
-  <script type="text/javascript" src="scripts/storymap.js"></script>
-
+  <script type="text/javascript" src="scripts/newstorymap.js"></script>
+  <script type="module" src="scripts/readEntries.mjs"></script>
+  <script type="module" src="scripts/pshannon.mjs"></script>
+  <script type="module">
+    import {Simple} from './scripts/simpleClass.js'
+    $(document).ready(function() {
+        var simple = new Simple(99);
+        console.log("simple value: " + simple.getValue());
+        })
+    </script>
 </body>
 </html>

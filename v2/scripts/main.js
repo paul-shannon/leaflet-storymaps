@@ -72,9 +72,11 @@ export class Main {
         let divID = '#thumbnail-' + i;
         if (visibleSites.indexOf(i) >= 0){
            $(divID).show()
+           main.markers[i].marker.addTo(main.map)
            }
         else {
            $(divID).hide()
+           main.markers[i].marker.remove()
            }
         } // let i
      } // showSites
@@ -85,13 +87,15 @@ export class Main {
      }
 
   addMarkers(){
-     this.bounds = []
+     this.markers = [];
+     this.bounds = [];
      for (let i=0; i < this.sites.length; i++){
         const lat = this.sites[i].Latitude;
         const lon = this.sites[i].Longitude;
         var newMarker = new StoryMarker(i, this.map, this.sites[i]);
         console.log("--- new marker with bounds: ")
         console.log(newMarker.getLatLng())
+        this.markers.push(newMarker);
         this.bounds.push(newMarker.getLatLng())
        } // for i
      this.map.fitBounds(this.bounds)
@@ -101,7 +105,6 @@ export class Main {
     createThumbnailsAndPopups(){
        for (let i=0; i < this.sites.length; i++){
           this.createThumbnail(i, this.sites[i])
-          //this.createDialog(i, this.sites[i].Chapter)
           var dialog = new StoryDialog(i, this.sites[i]);
           this.createThumbnailClickEventHandler(i, this.sites[i])
           } // for i
@@ -143,30 +146,7 @@ export class Main {
          dialog.showModal();
          })
       } // createThumbnailClickEventHandler
-
-
     //----------------------------------------
-    createDialog(i, artworkTitle){
-       console.log(i + ") creating popup for " + artworkTitle)
-       const id = `dialog-${i}`;
-       const imgSrc = this.sites[i]['Media Link'];
-       const h4 = this.sites[i]['Chapter'];
-       const descriptiveText = this.sites[i]['Description'];
-       var d = `<dialog id="${id}"` +
-                '  <div class="image-container">' +
-                `     <img src="${imgSrc}" style="margin: 0 auto; width: 50%" alt="alt"> ` + 
-                      '    <div style="overflow-y: auto; padding: 30px; padding-top:0px; padding-bottom: 0px;">' +
-                      `<h4>${h4}</h4>` +
-                      `${descriptiveText}` +
-                      '</dialog>';
-       console.log("---- popup dialog newly constructed")
-       console.log(d)
-       //var tg = $("#thumbnail-grid")
-       //tg.append(d);
-       var body = $("body");
-       body.append (d);
-       } // createDialog
-
 
 } // class Main
 //---------------------------------------------------------------------
