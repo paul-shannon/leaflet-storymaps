@@ -26,7 +26,8 @@ body {
   }
 
 #navbar {
-  grid-area: navbar;
+    grid-area: navbar;
+    overflow: auto;
    }
 
 #header {
@@ -65,13 +66,14 @@ body {
   overflow-y: auto;
   }
 
-
 .thumbnail-grid-container {
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
     gap: 10px;
-    padding: 20px;
+    padding: 10px;
     }
+
+
 
 .thumbnail {
     width: 100%;
@@ -163,8 +165,9 @@ dialog::backdrop {
 @media (min-width: 800px) {
     #header  {grid-area: 1 / 1 / 1 / 3}
     #navbar  {grid-area: 2 / 1 / 2 / 3}
-    #artwork {grid-area: 3 / 1 / 3 / 1;}
+    #artwork-wrapper {grid-area: 3 / 1 / 3 / 1;}
     #map     {grid-area: 3 / 2 / 3 / 3;}
+
 
 }
 
@@ -173,10 +176,10 @@ dialog::backdrop {
               height: 100px;}
     #navbar  {grid-area: 2 / 1 / 2 / 3;
               height: 60px;}
-    #artwork {grid-area: 3 / 1 / 4 / 3;
+    #artwork-wrapper {grid-area: 3 / 1 / 3 / 3;
               height: calc((100vh - 100px)/2);
               }
-    #map     {grid-area: 4 / 1 / 5 / 3;
+    #map     {grid-area: 4 / 1 / 4 / 3;
               height: calc((100vh - 160px)/2);
               }
     }
