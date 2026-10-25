@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>PNW Indigenous Art Tour</title>
+    <!-- Leaflet CSS for fast mobile map styles -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+
+    <style>
+        :root {
+            --bg-card: rgba(255, 255, 255, 0.95);
+            --accent-color: #8c2d19; /* Heritage Red tone */
+            --text-dark: #222;
+        }
+        body, html {
+            margin: 0; padding: 0;
+            width: 100%; height: 100%;
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background: #111;
+            overflow: hidden;
+        }
+        /* Sticky map filling layout background */
+        #map {
+            width: 100%;
+            height: 100%;
+            position: absolute;
+            top: 0; bottom: 0; z-index: 1;
+        }
+        /* Bottom-anchored thumb-zone container */
+        #card-container {
+            position: absolute;
+            bottom: 0; left: 0; right: 0;
+            z-index: 10;
+            display: flex;
+            overflow-x: auto;
+            scroll-snap-type: x mandatory;
+            scroll-behavior: smooth;
+            padding: 15px 0 25px 0;
+            background: linear-gradient(to top, rgba(0,0,0,0.7) 0%, rgba(0,0,0,0) 100%);
+            -webkit-overflow-scrolling: touch;
+        }
+        /* Hide scrollbars for a clean app presentation */
+        #card-container::-webkit-scrollbar { display: none; }
+        
+        /* Individual Mobile Art Cards */
+        .art-card {
+            flex: 0 0 85%;
+            margin: 0 2.5%;
+            scroll-snap-align: center;
+            background: var(--bg-card);
+            border-radius: 16px;
+            padding: 20px;
+            box-sizing: border-box;
+            box-shadow: 0 8px 24px rgba(0,0,0,0.3);
+            color: var(--text-dark);
+            max-height: 250px;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+        /* Visual spacing to center the first and last cards */
+        #card-container::before, #card-container::after {
+            content: '';
+            flex: 0 0 5%;
+        }
+        .art-card h2 { margin: 0 0 4px 0; font-size: 1.3rem; font-weight: 700; color: #111; }
+        .art-card h3 { margin: 0 0 10px 0; font-size: 0.95rem; font-weight: 500; color: var(--accent-color); text-transform: uppercase; letter-spacing: 0.5px; }
+        .art-card p { margin: 0 0 15px 0; font-size: 0.9rem; line-height: 1.4; color: #444; overflow-y: auto; }
+        
+        /* Interactive Controls */
+        .controls { display: flex; gap: 10px; align-items: center; }
+        .btn {
+            background: var(--accent-color); color: #fff;
+            border: none; padding: 10px 16px; border-radius: 8px;
+            font-weight: 600; font-size: 0.85rem; cursor: pointer;
+        }
+        .badge {
+            margin-left: auto; font-size: 0.75rem; font-weight: bold;
+            padding: 4px 8px; border-radius: 4px; background: #e0e0e0;
+        }
+    </style>
+</head>
+<body>
+
+    <div id="map"></div>
+    <div id="card-container"></div>
+
+    <!-- Leaflet JS Engine -->
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"> </script>
+    <script>
+        // 1. Initialize the Base Map focused over Downtown Seattle
+        const map = L.map('map', {
+            zoomControl: false, // Turned off to prevent blocking touch layers
+            tap: false          // Resolves double-tap delays on mobile Safari
+        }).setView([47.6062, -122.3321], 13);
+
+        // 2. Add an elegant, minimal map background layer (CartoDB Positron)
+        // This ensures the custom art points are highly readable
+        L.tileLayer('https://{s}://{z}/{x}/{y}{r}.png', {
+            attribution: '&copy; OpenStreetMap contributors &copy; CARTO'
+        }).addTo(map);
+
+        let locations = [];
+        const cardContainer = document.getElementById('card-container');
+        const markers = {};
+
+        // 3. Fetch Data and Build User Interface Elements Dynamically
+        fetch('tour-data.json')
+            .then(response => response.json())
+            .then(data => {
+                locations = data;
+                renderUI();
+            })
+            .catch(error => console.error('Error parsing tour configuration:', error));
+
+        function renderUI() {
+            locations.forEach((item, index) => {
+                // Add Map Pin Markings
+                const marker = L.marker(item.coordinates).addTo(map);
+                markers[item.id] = marker;
+
+                // Bind small tooltip popup window
+                marker.bindPopup(`<b>${item.title}</b><br>${item.artist}`);
+
+                // Generate UI Interactive Content Slide Cards
+                const card = document.createElement('div');
+                card.className = 'art-card';
+                card.id = `card-${item.id}`;
+                card.innerHTML = `
+                    <div>
+                        <h2>${item.title}</h2>
+                        <h3>${item.artist}</h3>
+                        <p>${item.description}</p>
+                    </div>
+                    <div class="controls">
+                        <button class="btn" onclick="playAudio('${item.audioUrl}')">▶ Listen</button>
+                        <span class="badge" style="color:${item.type === 'walking' ? '#2e7d32':'#1565c0'}">
+                            ${item.type.toUpperCase()}
+                        </span>
+                    </div>
+                `;
+                
+                // Clicking card forces map to pan smoothly to its coordinate anchor
+                card.addEventListener('click', () => {
+                    map.flyTo(item.coordinates, 15, { duration: 1.5 });
+                    marker.openPopup();
+                });
+
+                cardContainer.appendChild(card);
+            });
+            
+            // Set active frame on initialization
+            if(locations.length > 0) {
+                map.setView(locations[0].coordinates, 14);
+            }
+        }
+
+        // 4. Handle Horizontal Mobile Swipe Snapping Events
+        // This tracks which card is centrally active on the screen and shifts the map to match
+        let scrollTimeout;
+        cardContainer.addEventListener('scroll', () => {
+            clearTimeout(scrollTimeout);
+            scrollTimeout = setTimeout(() => {
+                const containerWidth = cardContainer.offsetWidth;
+                const scrollLeft = cardContainer.scrollLeft;
+                const cardWidth = containerWidth * 0.90; // matches card flex calculation + margin
+                
+                const activeIndex = Math.round(scrollLeft / cardWidth);
+                if (locations[activeIndex]) {
+                    const activeItem = locations[activeIndex];
+                    map.flyTo(activeItem.coordinates, 15, { duration: 1.2 });
+                    markers[activeItem.id].openPopup();
+                }
+            }, 150); // Small debounce filter to allow user to complete scroll gesture
+        });
+
+        // 5. Placeholder Audio Controller Logic
+        function playAudio(url) {
+            alert(`Playing guide audio stream asset resource track: ${url}`);
+            // In live staging layout production layer, swap with:
+            // const audio = new Audio(url); audio.play();
+        }
+    </script>
+</body>
+</html>
+

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Coast Salish Art Storymap</title>
+  <link rel="icon" type="image/png" href="./favicon.png">
+
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"
+    integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  <script src="https://cdn.jsdelivr.net/npm/papaparse@5.3.0/papaparse.min.js"></script>
+
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+    integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous">
+  <link rel="stylesheet" href="css/adaptive.css">
+</head>
+<body>
+<div id="mainDiv" class="grid-container">
+
+  <div id="header" class="header">
+    <b>Visible on Ancestral Lands: Coast Salish Public Art Works in King County.</b><br>
+    <button id="creditsButton" type="button">Credits, Gratitude, Background</button>
+  </div>
+
+  <dialog id="creditsDialog" aria-label="Credits and gratitude">
+    <button id="dialogCloseButton" type="button">Close</button>
+    <div class="credits-body">
+      <p>This website acknowledges that the lands and art work documented here are the ancestral home of the Coast Salish people.</p>
+      <p>Thanks to 4Culture/King County Lodging Tax Fund for funding support.</p>
+    </div>
+  </dialog>
+
+  <nav id="navbar" aria-label="Filter by category"><ul></ul></nav>
+
+  <div id="artwork-wrapper">
+    <div id="artwork">
+      <div id="thumbnail-grid" class="thumbnail-grid-container"></div>
+    </div>
+  </div>
+
+  <div id="map"></div>
+</div>
+
+<script type="module">
+  import {Main} from './scripts/main.js';
+  const credits = document.getElementById('creditsDialog');
+  document.getElementById('creditsButton').addEventListener('click', () => credits.showModal());
+  document.getElementById('dialogCloseButton').addEventListener('click', () => credits.close());
+  new Main().start();
+</script>
+</body>
+</html>

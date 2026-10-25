@@ -1,0 +1,30 @@
+[
+  {
+    "id": "tidelands",
+    "title": "Tidelands",
+    "artist": "Indigenous-Owned Creative Hub",
+    "type": "walking",
+    "coordinates": [47.6053, -122.3396],
+    "description": "An active Native art gallery and community space showcasing modern narrative art, prints, and books directly on the central waterfront.",
+    "audioUrl": "assets/audio/tidelands.mp3"
+  },
+  {
+    "id": "stonington",
+    "title": "Stonington Gallery",
+    "artist": "Contemporary Masterworks",
+    "type": "walking",
+    "coordinates": [47.5992, -122.3323],
+    "description": "Located in historic Pioneer Square, representing museum-quality glasswork, monumental carvings, and prints from Northwest Coast artists.",
+    "audioUrl": "assets/audio/stonington.mp3"
+  },
+  {
+    "id": "daybreak-star",
+    "title": "Daybreak Star Cultural Center",
+    "artist": "Intertribal / Coast Salish",
+    "type": "driving",
+    "coordinates": [47.6617, -122.4175],
+    "description": "An architectural and cultural anchor in Discovery Park, housing the Sacred Circle Gallery and permanent collections of contemporary art.",
+    "audioUrl": "assets/audio/daybreak.mp3"
+  }
+]
+

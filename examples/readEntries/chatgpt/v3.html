@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Read and Parse CSV File with Module</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<input type="file" id="csvFileInput" accept=".csv" />
+<table border="1" id="csvTable"></table>
+
+<script type="module">
+
+import {CsvHandler} from './csvHandler.js';
+
+$(document).ready(function() {
+   const csvHandler = new CsvHandler('#csvTable');
+   $('#csvFileInput').on('change', function(e) {
+       const file = e.target.files[0];
+       if (!file) return;
+       const reader = new FileReader();
+       reader.onload = function(e) {
+          const contents = e.target.result;
+          csvHandler.parseCSV2(contents).then(data => {
+              //csvHandler.displayTable(data);
+              console.log(data);
+            }).catch(error => console.error('Error:', error));
+        };
+        reader.readAsText(file);
+    });
+});
+
+</script>
+</body>
+</html>

@@ -1,0 +1,28 @@
+Step 4 is ready as five changed files: a new `layout.js`, plus updates to `main.js`, `config.js`, `index.html` and `adaptive.css`. I haven't run it, and the bottom sheet is the part most likely to need adjusting on a real phone.
+
+**Comparing the two layouts on a phone**
+- **Panel:** `?layout=panel`. The map fills the screen and the gallery is a bottom sheet. One button cycles Show gallery, Make gallery taller and Hide gallery, with no dragging needed.
+- **Toggle:** `?layout=toggle`. A Map | Gallery switch sits under the category bar and swaps the full screen between the two.
+- **Visitor control:** The credits dialog now has a "Phone layout" choice that applies immediately and is remembered on that device. With no URL parameter and no saved choice, `defaultLayout` in `config.js` decides, and it's set to `panel`.
+- **Desktop:** it is unchanged and still shows the gallery and map side by side.
+
+**Shared by both layouts (phones only)**
+- **Marker preview:** Tapping a marker opens a card with the thumbnail, title, artist and an Open button. Open leads to the full detail view. Tapping blank map does nothing, as discussed.
+- **Expand map:** A 44 px button on the map hides the header, nav and gallery so only the map shows, and the same button shrinks it back. The map never changes size by accident.
+- **Filtering:** Changing category dismisses any open preview.
+
+**What I'd test first**
+- **Panel on iOS Safari:** Check that the sheet sits correctly as the toolbar collapses, and that the page doesn't scroll behind the sheet.
+- **The expand button:** Check that it doesn't overlap the zoom buttons on a small screen.
+- **The map after each switch:** I call `invalidateSize()` after each change, and a grey or misplaced map after a switch would mean that call needs adjusting.
+- **Keyboard and screen reader:** Try Tab through the handle, toggle and preview. I did not test this.
+
+**Known gaps**
+- **Initial zoom:** The map still fits all markers with fixed padding, so on first load a marker can sit under the preview card or the peek bar. I'd add bottom padding for phones.
+- **No dragging yet:** Dragging the sheet isn't supported, only the button.
+- **Hover popups:** The 1-second hover popups are unchanged (step 5).
+
+For comparing the layouts, send two or three people a link for each and ask them to find the Longhouse floor. If you'd like the chosen layout logged, we'd need a decision with Lushootseed Research first, since none of this records anything.
+
+Once you've looked at both, step 5 handles marker size, keyboard
+access, a selected state and filter-aware map fitting.

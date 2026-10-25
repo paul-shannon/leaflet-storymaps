@@ -1,0 +1,135 @@
+import {config} from './config.js';
+import {StoryMarker} from './storyMarker.js';
+import {StoryDialog} from './storyDialog.js';
+
+const clean = v => String(v ?? '').trim();
+const normalizeHeader = h => h.trim().toLowerCase().replace(/\s+/g, '');   // "Media Link" -> "medialink"
+
+export class Main {
+  constructor() {
+    this.sites = [];
+    this.markers = [];
+    this.cards = [];
+    this.categories = [];
+    this.skipped = [];
+    this.grid = document.getElementById('thumbnail-grid');
+    this.map = L.map('map', {scrollWheelZoom: true, zoomControl: true, tap: false})
+      .setView(config.mapCenter, config.mapZoom);
+    L.tileLayer(config.tileUrl, {maxZoom: 19, attribution: config.tileAttribution}).addTo(this.map);
+  }
+
+  async start() {
+    try {
+      this.sites = await this.loadSites(config.csvPath);
+    } catch (e) {
+      console.error('Could not load', config.csvPath, e);
+      this.notice('The artwork list could not be loaded. Please try again later.');
+      return;
+    }
+    if (this.skipped.length) {
+      console.warn('Skipped CSV lines with bad coordinates:', this.skipped);
+      if (location.search.includes('debug')) {
+        this.notice(`Skipped CSV lines with bad coordinates: ${this.skipped.join(', ')}`);
+      }
+    }
+    this.categories = [...new Set(this.sites.flatMap(s => s.categories))];
+    this.buildNav();
+    this.sites.forEach((s, i) => {
+      this.cards.push(this.addCard(i, s));
+      this.markers.push(new StoryMarker(i, this.map, s, n => this.openDialog(n)));
+      new StoryDialog(i, s);
+    });
+    if (this.sites.length) {
+      this.map.fitBounds(this.markers.map(m => m.getLatLng()), {padding: config.fitPadding});
+    }
+    this.setActive(config.allLabel);
+  }
+
+  loadSites(path) {
+    return new Promise((resolve, reject) => {
+      Papa.parse(path, {
+        download: true, header: true, skipEmptyLines: true,
+        transformHeader: normalizeHeader,
+        complete: res => resolve(this.toSites(res.data)),
+        error: reject
+      });
+    });
+  }
+
+  toSites(rows) {
+    const sites = [];
+    rows.forEach((r, n) => {
+      const lat = parseFloat(r.latitude), lng = parseFloat(r.longitude);
+      if (!Number.isFinite(lat) || !Number.isFinite(lng)) { this.skipped.push(n + 2); return; }  // +2: header row, 1-based
+      const image = clean(r.medialink);
+      sites.push({
+        title: clean(r.chapter) || 'Untitled',
+        lat, lng,
+        description: clean(r.description),
+        image,
+        thumbnail: clean(r.thumbnail) || image,
+        artist: clean(r.artist),
+        categories: clean(r.categories).split(';').map(clean).filter(Boolean)
+      });
+    });
+    return sites;
+  }
+
+  buildNav() {
+    const ul = document.querySelector('#navbar ul');
+    ul.innerHTML = '';
+    [config.allLabel, ...this.categories].forEach(label => {
+      const li = document.createElement('li');
+      const b = document.createElement('button');
+      b.type = 'button';
+      b.textContent = label;
+      b.dataset.category = label;
+      b.addEventListener('click', () => this.filter(label));
+      li.append(b);
+      ul.append(li);
+    });
+  }
+
+  filter(category) {
+    const all = category === config.allLabel;
+    this.sites.forEach((s, i) => {
+      const show = all || s.categories.includes(category);
+      this.cards[i].hidden = !show;
+      if (show) this.markers[i].marker.addTo(this.map); else this.markers[i].marker.remove();
+    });
+    this.setActive(category);
+  }
+
+  setActive(category) {
+    document.querySelectorAll('#navbar button')
+      .forEach(b => b.setAttribute('aria-pressed', String(b.dataset.category === category)));
+  }
+
+  addCard(i, s) {
+    const b = document.createElement('button');
+    b.type = 'button';
+    b.className = 'card';
+    b.id = `thumbnail-${i}`;
+    const img = document.createElement('img');
+    img.className = 'thumbnail';
+    img.src = s.thumbnail;
+    img.alt = '';                      // the title below names the work
+    img.loading = 'lazy';
+    const t = document.createElement('span');
+    t.textContent = s.title;
+    b.append(img, t);
+    b.addEventListener('click', () => this.openDialog(i));
+    this.grid.append(b);
+    return b;
+  }
+
+  openDialog(i) { document.getElementById(`dialog-${i}`).showModal(); }
+
+  notice(text) {
+    const d = document.createElement('div');
+    d.className = 'notice';
+    d.setAttribute('role', 'status');
+    d.textContent = text;
+    this.grid.before(d);
+  }
+}

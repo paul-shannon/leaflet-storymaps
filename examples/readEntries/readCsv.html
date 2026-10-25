@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <title>read and parse csv </title>
+    <script src="https://code.jquery.com/jquery-3.6.3.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-csv/1.0.40/jquery.csv.min.js"></script>
+
+<script>
+//------------------------------------------------------------
+function readEntries()
+{
+  var chapters;
+  console.log("pshannon.js sees document ready");
+  return($.get("./Chapters.csv"))
+  /******
+      .done(function(cvsData){
+         console.log("done, success");
+         var objs = $.csv.toObjects(cvsData)
+         console.log(objs.length)
+         // return(objs)
+         })
+      .fail(function(e) {
+          console.log("failure in reading Chapters.csv");
+          return([]);
+          })
+    ******/
+} // readEntries
+//------------------------------------------------------------
+</script>      
+
+<style>
+
+body{
+   margin: 100px;
+   margin-top: 30px;
+   font-family: "New York Times-Roman";
+   font-size: 22px;
+   height: 100%;
+   }
+
+</style>
+
+</head>
+<body>
+<h3> read and parse csv file</h3>
+
+
+</body>
+</html>

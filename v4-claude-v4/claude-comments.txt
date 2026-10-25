@@ -1,0 +1,19 @@
+Step 5 is ready as six files: `storyMarker.js` (rewritten), a new `locate.js`, and updates to `main.js`, `layout.js`, `config.js` and `adaptive.css`. As before, I haven't run it, so please test it on your branch, especially on a real phone.
+
+**Markers**
+- **Bigger tap targets:** Each marker has a 44 px hit area around an 18 px dot, in place of the old 10 px circle. On phones the Leaflet zoom buttons also grow to 44 px.
+- **Keyboard:** Markers are focusable, with a visible ring and an `aria-label` carrying the title. Enter opens the preview or detail, but I don't expect Space to work, because Leaflet only maps Enter.
+- **Selected state:** The selected marker is larger and a different color, not color alone. It stays selected while its preview or detail is open, and clears when you dismiss the preview or change category.
+- **Hover:** Hover tooltips appear only where a mouse exists. The old hover popup and its stray timer are gone, so touch screens use only the preview card.
+
+**Map behavior**
+- **Filtering:** Changing category now refits the map to the visible markers, with padding. On phones, extra bottom padding keeps markers clear of the preview card and the peek bar (`fitPaddingBottomPhone` in `config.js`, set to 130 px), and the zoom is capped at 16 for single results.
+- **Find me:** The new button asks for the browser's location permission only when tapped. It shows your position and accuracy on the map, and nothing is sent anywhere or stored.
+- **Overlapping markers:** The app now warns about markers closer than 20 m (console, or on screen with `?debug`). I haven't seen your full CSV, so open the page with `?debug` and tell me what it reports. If works share a site, the options are clustering or fanning out the markers on tap, and I'd decide with you.
+
+**Things I'd test**
+- **Keyboard behavior:** Tab to a marker and press Enter, and check that Tab order across the map controls is sensible.
+- **Re-added markers:** After filtering back to All, markers should keep their labels and selected styling, which the `add` handler is meant to ensure.
+- **Spacing on a 360 px phone:** Check that the zoom, Expand map and Find me buttons stack without covering markers.
+- **Location denial:** Deny the location permission once and confirm that "Location unavailable" appears and then resets.
+

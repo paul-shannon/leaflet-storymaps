@@ -1,0 +1,33 @@
+file media/*.jpg media/*.jpeg 2>/dev/null | head -20
+
+The pixel sizes show two separate problems: two images are far too large, and seven are too small.
+
+**Too large (the real page-weight problem)**
+- **`duwamishsalmon.jpg`** is 3274×3092 and 5.2 MB. It carries Nikon D750 EXIF data, which can include GPS and camera details, so it should be re-encoded.
+- **`eaglebearingwealth.jpg`** is a 1698×3705 portrait at 1.5 MB.
+- Re-encoded at 1600 px on the long edge, each should come out in the low hundreds of KB.
+
+**Too small (what the detail view now exposes)**
+- Seven display images are under 600 px on the long edge: `bearandeagle` is 332×192, `burke` is 450×450, `ceremonystone` is 176×117, `changerstone` is 150×102, `duwamishLonghouseFloor` is 436×320, `eighthgen` is 243×174, and `ravensJourney` is 500×400.
+- My step 3 stretched the detail image to the dialog width, so these would look pixelated, `changerstone` worst of all. I changed the CSS so images show at their natural size, never above it, centered. They'll be crisp but small. The real fix is higher-resolution photos from the photographers or the sources you got them from, with permission and credit. The audit now flags these as "low resolution", so Lushootseed Research gets a ready-made list to work from.
+- Three thumbnails are only 100 px wide (`Longhouse-thumb.jpg`, `orcaDorsalFin-thumb.jpg`, `ravensJourney-thumb.jpg`), so on a phone they're stretched to about 150 px wide, and more on a retina screen, which makes them soft. The `.jpeg` Longhouse thumbnail at 256×188 is the best of the set.
+
+**Changes in this round**
+- **`make_images.py`:** `build` now leaves any JPEG that is already web-sized (1600 px or less, 600 KB or less, no metadata) untouched, so the small images aren't re-compressed. Only oversized or metadata-bearing files are re-encoded. It still makes a 400 px thumbnail for each image, though the thumbnail can't exceed the source size.
+- **`adaptive.css`:** the detail image now uses `width: auto; max-width: 100%`, so it isn't scaled up.
+
+**Suggested run (from your project folder, after backing up)**
+```bash
+mkdir originals
+cp media/*.jpg media/*.jpeg media/*.png originals/
+rm originals/*-thumb.* originals/*-thumbnail.* originals/*-trimmed.png   # the derived files
+python tools/make_images.py build originals media
+python tools/make_images.py audit csv/sites.csv .
+```
+
+The `rm` line touches only the copies in `originals/` that you can
+regenerate, not the website folder. Keep `originals/` outside the site
+you publish. Then run the audit and send me its output, so I can give
+you the exact CSV changes for the new `-thumb.jpg` names. I'll update
+the CSV `thumbnail` and `Media Link` cells and the `.jpeg` reference
+together, so nothing is left pointing at a missing file.

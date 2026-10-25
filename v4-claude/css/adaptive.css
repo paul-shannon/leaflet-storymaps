@@ -1,0 +1,59 @@
+*, *::before, *::after { box-sizing: border-box; }
+[hidden] { display: none !important; }
+html, body { height: 100%; margin: 0; padding: 0; }
+body { font-family: "Lucida Sans", "Lucida Grande", system-ui, sans-serif; font-size: 17px; overflow: hidden; }
+:focus-visible { outline: 3px solid #2f6f8f; outline-offset: 2px; }
+
+/* Phones: header and nav take their natural height; gallery and map share the rest. */
+.grid-container {
+  display: grid; gap: 10px; background: white;
+  height: 100vh; height: 100dvh;
+  padding: max(10px, env(safe-area-inset-top)) max(10px, env(safe-area-inset-right))
+           max(10px, env(safe-area-inset-bottom)) max(10px, env(safe-area-inset-left));
+  grid-template-columns: minmax(0, 1fr);
+  grid-template-rows: auto auto minmax(0, 1fr) minmax(0, 1fr);
+  grid-template-areas: "header" "navbar" "artwork" "map";
+}
+#header { grid-area: header; background-color: #CDC; text-align: center; color: black;
+  border: 1px solid black; border-radius: 10px; padding: 10px 14px; }
+#header button { margin-top: 8px; padding: 5px 12px; min-height: 44px; border-radius: 10px;
+  background-color: #DED; border: 1px solid black; font: inherit; cursor: pointer; }
+
+#navbar { grid-area: navbar; overflow-x: auto; }
+#navbar ul { display: flex; gap: 6px; margin: 0; padding: 0 0 4px; list-style: none; }
+#navbar button { flex: none; min-height: 44px; padding: 5px 12px; border: 1px solid black;
+  border-radius: 5px; background-color: #EFE; color: black; font: inherit; cursor: pointer; }
+#navbar button:hover { background-color: #CDC; }
+#navbar button[aria-pressed="true"] { background-color: #CDC; font-weight: bold; }
+
+#artwork-wrapper { grid-area: artwork; display: flex; min-height: 0; border: 1px solid black;
+  border-radius: 10px; overflow: hidden; }
+#artwork { flex: 1; background-color: #f8f8f8; padding: 10px; overflow-y: auto; }
+
+#map { grid-area: map; min-height: 0; background-color: #f8f8f8;
+  border: 2px solid black; border-radius: 10px; }   /* no padding: Leaflet misplaces tiles and controls */
+
+.thumbnail-grid-container { display: grid; grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 10px; }
+.card { display: flex; flex-direction: column; gap: 6px; min-width: 0; padding: 10px; background: white;
+  border: 1px solid black; border-radius: 10px; font: inherit; text-align: left; cursor: pointer; }
+.thumbnail { width: 100%; height: 100px; object-fit: cover; border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1); transition: transform 0.3s ease; }
+.card:hover .thumbnail { transform: scale(1.05); }
+.notice { background: #FEE; border: 1px solid #a00; border-radius: 6px; padding: 8px; margin-bottom: 10px; }
+
+dialog { border: none; border-radius: 8px; padding: 0; box-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  max-width: 90vw; max-height: 90vh; max-height: 90dvh; overscroll-behavior: contain; }
+dialog::backdrop { background-color: rgba(0,0,0,0.7); }
+dialog button { min-height: 44px; }
+/* Applied to each artwork <dialog> itself (it carries this class). */
+.image-container { position: relative; margin: 20px; margin-bottom: 2px; padding: 20px; }
+.image-container img { max-width: 100%; max-height: 80vh; display: block; border-radius: 8px; }
+.credits-body { padding: 8px 24px 24px; }
+
+@media (min-width: 800px) {
+  .grid-container {
+    grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+    grid-template-rows: auto auto minmax(0, 1fr);
+    grid-template-areas: "header header" "navbar navbar" "artwork map";
+  }
+}

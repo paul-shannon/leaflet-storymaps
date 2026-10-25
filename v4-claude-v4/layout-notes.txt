@@ -1,0 +1,33 @@
+Yes, it's a small change in `css/adaptive.css`. On phones the gallery and map currently get equal shares of the height left after the header and nav. Changing the ratio gives the map more:
+
+```css
+/* In the base .grid-container rule (phones) */
+grid-template-rows: auto auto minmax(0, 1fr) minmax(0, 2fr);
+```
+
+The map gets two-thirds of the remaining space instead of half. `1fr / 3fr` gives it about three-quarters, though the gallery then shows only one row of thumbnails. The Leaflet map needs no other changes, because the grid sizes it before the page loads.
+
+If you want to try the wider desktop version too, change the side-by-side proportions inside the `@media (min-width: 800px)` block:
+
+```css
+grid-template-columns: minmax(0, 2fr) minmax(0, 3fr);
+```
+
+You can also reclaim vertical space on phones by shrinking the header, which currently has two lines plus a 44 px button:
+
+```css
+#header { padding: 6px 10px; }
+#header b { font-size: 0.95rem; }
+#header button { margin-top: 4px; }
+```
+
+If you'd rather put the map above the gallery on phones, swap the order in the base rule:
+
+```css
+grid-template-rows: auto auto minmax(0, 2fr) minmax(0, 1fr);
+grid-template-areas: "header" "navbar" "map" "artwork";
+```
+
+These are stopgaps that make the map bigger today. Step 4 replaces the fixed split with the two layouts you want to compare, so you can adjust the ratios now without losing any work. I haven't tested these values on a device, so adjust `2fr` while looking at a real phone.
+
+Do you want me to go ahead with step 4?

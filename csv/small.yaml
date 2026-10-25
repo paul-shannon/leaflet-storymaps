@@ -1,0 +1,29 @@
+items:
+
+   - title: Raven's Journey
+     artist: Marvin Oliver
+     lat: 47.65543925049407
+     lon: -122.30507660704056
+     categories: raven
+     media: media/ravensJourney.jpg
+     description:
+        This sculpture was created by Marvin Oliver especially to
+        honor and inspire students at the University of Washington.
+
+   - title: Duwamish Longhouse Floor
+     artist: Mary Lou Slaughter
+     lat: 47.56119828648868
+     lon:  -122.35192562279617
+     categories: basketry
+     media: media/duwamishLonghouseFloor.jpg
+     description: Basket maker Mary Lou Slaughter created the design
+        for this floor at the request of the architect of the Duwamish
+        Longhouse. 
+
+   - title: Spirit of Washington
+     artist: Marvin Oliver
+     lat: 47.560520175429055
+     lon:  -122.2872870833592
+     categories: orca
+     media: media/orcaDorsalFin.jpg
+     description: This orca dorsal fin created by Marvin Oliver

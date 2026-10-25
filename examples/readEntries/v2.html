@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Read and Parse CSV File</title>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+<input type="file" id="csvFileInput" accept=".csv" />
+<table border="1" id="csvTable"></table>
+
+<script>
+$(document).ready(function() {
+    $('#csvFileInput').on('change', function(e) {
+        const file = e.target.files[0];
+        if (!file) return;
+
+        const reader = new FileReader();
+
+        reader.onload = function(e) {
+            const contents = e.target.result;
+            // Create a promise to parse CSV
+            parseCSV(contents).then(function(data) {
+                displayTable(data);
+            }).catch(function(error) {
+                console.error('Error parsing CSV:', error);
+            });
+        };
+
+        reader.readAsText(file);
+    });
+
+    function parseCSV(csvText) {
+        return new Promise(function(resolve, reject) {
+            try {
+                const rows = csvText.trim().split('\n');
+                const data = rows.map(row => row.split(','));
+                resolve(data);
+            } catch (error) {
+                reject(error);
+            }
+        });
+    }
+
+    function displayTable(data) {
+        const table = $('#csvTable');
+        table.empty();
+        data.forEach(function(row) {
+            const tr = $('<tr></tr>');
+            row.forEach(function(cell) {
+                tr.append($('<td></td>').text(cell));
+            });
+            table.append(tr);
+        });
+    }
+});
+</script>
+</body>
+</html>
