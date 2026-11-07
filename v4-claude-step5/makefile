@@ -21,7 +21,7 @@ view:
 	open http://localhost:$(PORT)/index.html
 
 view-remote:
-	open http://pshannon.net/storyMap
+	open http://pshannon.net/storymap
 
 
 DEST=paulshannnon@pshannon.net:public_html/pshannon.net/storymap

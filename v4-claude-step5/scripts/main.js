@@ -142,7 +142,21 @@ export class Main {
   select(i) {
     if (this.sel >= 0) this.markers[this.sel]?.setSelected(false);
     this.sel = i;
-    if (i >= 0) this.markers[i]?.setSelected(true);
+    if (i >= 0) {
+      this.markers[i]?.setSelected(true);
+      this.centerOn(i);
+    }
+  }
+
+  // Center the selected work: the zoom buttons zoom about the map center, so an off-center dot would drift
+  // out of view. On phones the preview card and peek bar cover the bottom, so aim at the visible middle.
+  centerOn(i) {
+    const size = this.map.getSize();
+    if (!size.x || !size.y) return;                 // map is hidden (gallery view)
+    const zoom = this.map.getZoom();
+    const covered = this.layout.isPhone() ? config.fitPaddingBottomPhone : 0;
+    const target = this.map.project(this.markers[i].getLatLng(), zoom).add([0, covered / 2]);
+    this.map.setView(this.map.unproject(target, zoom), zoom, {animate: true});
   }
 
   fitToVisible() {
